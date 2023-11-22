@@ -1,0 +1,6 @@
+{
+  "short_name": "Momozzi",
+  "name": "Momozzi App",
+  "start_url": ".",
+  "display": "standalone"
+}
