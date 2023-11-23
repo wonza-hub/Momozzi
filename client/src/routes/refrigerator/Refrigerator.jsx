@@ -25,14 +25,18 @@ const Refrigerator = () => {
       </div>
       <button
         onClick={() => {
-          navigate("/search", {
-            state: {
-              metaData: {
-                method,
-                category,
+          if (method || category) {
+            navigate("/foodList", {
+              state: {
+                foodFilter: {
+                  method,
+                  category,
+                },
               },
-            },
-          });
+            });
+          } else {
+            alert("요리 방법이나 카테고리를 입력해주세요.");
+          }
         }}
       >
         Recommend!
