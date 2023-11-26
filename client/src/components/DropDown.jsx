@@ -12,14 +12,10 @@ const DropDown = ({ menuItems, setArg }) => {
   return (
     <>
       <Select
+        className="w-48 h-8"
         value={item}
         onChange={handleChange}
         renderValue={(value) => (value ? value : "None")}
-        sx={{
-          marginTop: 35,
-          width: 250,
-          height: 50,
-        }}
       >
         {menuItems.map((item, idx) => (
           <MenuItem key={idx} value={item}>
