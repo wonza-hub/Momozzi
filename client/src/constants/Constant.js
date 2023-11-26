@@ -22,3 +22,15 @@ export const CATEGORY = [
   "빵",
   "떡",
 ];
+
+export const INGREDIENT = [
+  "메인반찬",
+  "밑반찬",
+  "면",
+  "찌개",
+  "밥",
+  "샐러드",
+  "디저트",
+  "빵",
+  "떡",
+];
