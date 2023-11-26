@@ -12,24 +12,33 @@ const Refrigerator = () => {
   const [storedIngredients, setStoredIngredients] = useState([]);
 
   return (
-    <>
-      {/* <Inventory storedIngredients={storedIngredients}></Inventory> */}
-      <div>
-        <div>
-          <span>Method</span>
-          <DropDown menuItems={METHOD} setArg={setMethod}></DropDown>
-        </div>
-        <div>
-          <span>Category</span>
-          <DropDown menuItems={CATEGORY} setArg={setCategory}></DropDown>
+    <div className="relative min-w-screen min-h-screen bg-[#DBDBDB]/20">
+      {/* box shadows - next.js */}
+      <div className="absolute bg-white/80 top-[450px] left-2/4 min-h-[560px] -translate-x-2/4 -translate-y-[320px] px-12 pt-10 rounded-2xl opacity-85 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+        <Inventory storedIngredients={storedIngredients}></Inventory>
+        <div className="flex flex-row justify-evenly mt-8 mb-12">
+          <div>
+            <div className="flex flex-row justify-between w-80 mb-4">
+              <span className="text-xl font-semibold text-primary/90">
+                Method
+              </span>
+              <DropDown menuItems={METHOD} setArg={setMethod}></DropDown>
+            </div>
+            <div className="flex flex-row w-80 justify-between">
+              <span className="text-xl font-semibold text-primary/90">
+                Category
+              </span>
+              <DropDown menuItems={CATEGORY} setArg={setCategory}></DropDown>
+            </div>
+          </div>
+          <RecommendBtn method={method} category={category}></RecommendBtn>
         </div>
       </div>
-      <RecommendBtn method={method} category={category}></RecommendBtn>
       <OpenBtn
         // userId={userId}
         setStoredIngredients={setStoredIngredients}
       ></OpenBtn>
-    </>
+    </div>
   );
 };
 
