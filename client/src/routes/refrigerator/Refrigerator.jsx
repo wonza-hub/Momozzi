@@ -1,18 +1,19 @@
 import Inventory from "./Inventory";
 import DropDown from "../../components/DropDown";
+import OpenBtn from "./OpenBtn";
+import RecommendBtn from "./RecommendBtn";
 import { METHOD, CATEGORY } from "../../constants/Constant";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Refrigerator = () => {
   const [method, setMethod] = useState("");
   const [category, setCategory] = useState("");
-
-  const navigate = useNavigate();
+  const [storedIngredients, setStoredIngredients] = useState([]);
 
   return (
     <>
-      <Inventory></Inventory>
+      {/* <Inventory storedIngredients={storedIngredients}></Inventory> */}
       <div>
         <div>
           <span>Method</span>
@@ -23,24 +24,11 @@ const Refrigerator = () => {
           <DropDown menuItems={CATEGORY} setArg={setCategory}></DropDown>
         </div>
       </div>
-      <button
-        onClick={() => {
-          if (method || category) {
-            navigate("/foodList", {
-              state: {
-                foodFilter: {
-                  method,
-                  category,
-                },
-              },
-            });
-          } else {
-            alert("요리 방법이나 카테고리를 입력해주세요.");
-          }
-        }}
-      >
-        Recommend!
-      </button>
+      <RecommendBtn method={method} category={category}></RecommendBtn>
+      <OpenBtn
+        // userId={userId}
+        setStoredIngredients={setStoredIngredients}
+      ></OpenBtn>
     </>
   );
 };
