@@ -8,7 +8,7 @@ const Inventory = ({ storedIngredients }) => {
         <span>Name</span>
         <span>Calories</span>
       </header>
-      <section className="w-[720px] max-h-[320px] px-32 py-2 border-[#E7EEF2] border-2 rounded-md overflow-y-auto">
+      <section className="w-[720px] h-[320px] max-h-[320px] px-32 py-2 border-[#E7EEF2] border-2 rounded-md overflow-y-auto">
         {storedIngredients.map((storedIngredient) => (
           <StoredIngredient ingredient={storedIngredient} />
         ))}
