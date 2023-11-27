@@ -8,13 +8,10 @@ import { useState } from "react";
 import { METHOD, CATEGORY, INGREDIENT } from "../../constants/Constant.js";
 import axios from "axios";
 
-const SearchBar = () => {
+const SearchBar = ({ setCuisines }) => {
   const [method, setMethod] = useState("");
   const [category, setCategory] = useState("");
   const [ingredient, setIngredients] = useState("");
-  console.log(method);
-  console.log(category);
-  console.log(ingredient);
 
   const handleMethodChange = (event) => {
     setMethod(event.target.value);
@@ -26,10 +23,32 @@ const SearchBar = () => {
     setIngredients(event.target.value);
   };
 
+  // 검색 버튼 클릭시 데이터 요청
+  const handleSearchClick = (event) => {
+    event.preventDefault();
+
+    if (method || category || ingredient) {
+      const filterUrl = `${process.env.REACT_APP_SERVER}/`;
+      const queryParams = {
+        method: method,
+        category: category,
+        ingredient: ingredient,
+      };
+      axios
+        ?.get(filterUrl, { params: queryParams })
+        ?.then((res) => {
+          setCuisines(res.data);
+        })
+        .catch((error) => {
+          console.error("불러오기 실패", error);
+        });
+    }
+  };
+
   return (
     <>
       <div className="w-[336px] px-[25px] pt-[100px] h-screen max-h-screen bg-secondary/80">
-        <FormControl>
+        <form onSubmit={handleSearchClick}>
           <header className="mb-2 text-[24px] font-semibold text-primary/90">
             Method
           </header>
@@ -81,7 +100,8 @@ const SearchBar = () => {
               />
             ))}
           </RadioGroup>
-        </FormControl>
+        </form>
+        <button>Search</button>
       </div>
     </>
   );
