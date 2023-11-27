@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 import { METHOD, CATEGORY, INGREDIENT } from "../../constants/Constant.js";
 import axios from "axios";
+import SearchBtn from "./SearchBtn.jsx";
 
 const SearchBar = ({ setCuisines }) => {
   const [method, setMethod] = useState("");
@@ -24,7 +25,7 @@ const SearchBar = ({ setCuisines }) => {
   };
 
   // 검색 버튼 클릭시 데이터 요청
-  const handleSearchClick = (event) => {
+  const handleSearchSubmit = (event) => {
     event.preventDefault();
 
     if (method || category || ingredient) {
@@ -40,15 +41,17 @@ const SearchBar = ({ setCuisines }) => {
           setCuisines(res.data);
         })
         .catch((error) => {
-          console.error("불러오기 실패", error);
+          console.error("음식 정보 불러오기 실패", error);
         });
+    } else {
+      alert("필터 조건을 선택하세요");
     }
   };
 
   return (
     <>
-      <div className="w-[336px] px-[25px] pt-[100px] h-screen max-h-screen bg-secondary/80">
-        <form onSubmit={handleSearchClick}>
+      <div className="w-[336px] px-[25px] pt-[100px] h-screen max-h-screen bg-secondary/60">
+        <form onSubmit={handleSearchSubmit}>
           <header className="mb-2 text-[24px] font-semibold text-primary/90">
             Method
           </header>
@@ -100,8 +103,8 @@ const SearchBar = ({ setCuisines }) => {
               />
             ))}
           </RadioGroup>
+          <SearchBtn></SearchBtn>
         </form>
-        <button>Search</button>
       </div>
     </>
   );
