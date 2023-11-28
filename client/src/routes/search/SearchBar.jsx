@@ -1,18 +1,16 @@
-import {
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-} from "@mui/material";
-import { useState } from "react";
+import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
+import { useState, useRef } from "react";
 import { METHOD, CATEGORY, INGREDIENT } from "../../constants/Constant.js";
-import axios from "axios";
 import SearchBtn from "./SearchBtn.jsx";
+import SearchInput from "./SearchInput.jsx";
+import axios from "axios";
 
-const SearchBar = ({ setCuisines }) => {
+const SearchBar = ({ setRecipes }) => {
   const [method, setMethod] = useState("");
   const [category, setCategory] = useState("");
   const [ingredient, setIngredients] = useState("");
+  const [searchContent, setSearchContent] = useState("");
+  const searchInputRef = useRef(null);
 
   const handleMethodChange = (event) => {
     setMethod(event.target.value);
@@ -28,17 +26,18 @@ const SearchBar = ({ setCuisines }) => {
   const handleSearchSubmit = (event) => {
     event.preventDefault();
 
-    if (method || category || ingredient) {
+    if (method || category || ingredient || searchContent) {
       const filterUrl = `${process.env.REACT_APP_SERVER}/`;
       const queryParams = {
         method: method,
         category: category,
         ingredient: ingredient,
+        searchContent: searchContent,
       };
       axios
         ?.get(filterUrl, { params: queryParams })
         ?.then((res) => {
-          setCuisines(res.data);
+          setRecipes(res.data);
         })
         .catch((error) => {
           console.error("음식 정보 불러오기 실패", error);
@@ -48,9 +47,14 @@ const SearchBar = ({ setCuisines }) => {
     }
   };
 
+  const onSearchContentChange = () => {
+    const searchInputValue = searchInputRef.current.value;
+    setSearchContent(searchInputValue);
+  };
+
   return (
     <>
-      <div className="w-[336px] px-[25px] pt-[100px] h-screen max-h-screen bg-secondary/60">
+      <div className="w-[336px] px-[28px] pt-[100px] h-screen max-h-screen bg-secondary/60">
         <form onSubmit={handleSearchSubmit}>
           <header className="mb-2 text-[24px] font-semibold text-primary/90">
             Method
@@ -104,6 +108,11 @@ const SearchBar = ({ setCuisines }) => {
             ))}
           </RadioGroup>
           <SearchBtn></SearchBtn>
+          <SearchInput
+            searchContent={searchContent}
+            onSearchContentChange={onSearchContentChange}
+            ref={searchInputRef}
+          ></SearchInput>
         </form>
       </div>
     </>
