@@ -7,9 +7,9 @@ const RecipeList = ({ recipes }) => {
 
   return (
     <>
-      <div className="w-screen mx-auto pt-[124px] px-[32px] h-screen bg-primary overflow-y-scroll">
+      <div className="w-screen h-screen mx-auto pt-[100px] px-[32px] flex flex-row flex-wrap bg-backgroundGray overflow-y-scroll">
         {recipes.map((recipe) => (
-          <RecipePreview recipe={recipe}></RecipePreview>
+          <RecipePreview key={recipe.recipe_id} recipe={recipe}></RecipePreview>
         ))}
       </div>
     </>
