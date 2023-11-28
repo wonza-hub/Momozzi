@@ -1,5 +1,6 @@
 import SearchBar from "./SearchBar";
 import RecipeList from "./RecipeList";
+import { dummyRecipe } from "../../constants/Constant";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -12,18 +13,21 @@ const RecipeSearcher = () => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    if (method || category) {
-      const recommendUrl = `${process.env.REACT_APP_SERVER}/`;
-      axios?.get(recommendUrl)?.then((res) => {
-        setRecipes(res.data);
-      });
-    } else {
-      const dataUrl = `${process.env.REACT_APP_SERVER}/`;
-      axios?.get(dataUrl)?.then((res) => {
-        setRecipes(res.data);
-      });
-    }
-  }, [method, category]);
+    setRecipes(dummyRecipe);
+  }, []);
+  // useEffect(() => {
+  //   if (method || category) {
+  //     const recommendUrl = `${process.env.REACT_APP_SERVER}/`;
+  //     axios?.get(recommendUrl)?.then((res) => {
+  //       setRecipes(res.data);
+  //     });
+  //   } else {
+  //     const dataUrl = `${process.env.REACT_APP_SERVER}/`;
+  //     axios?.get(dataUrl)?.then((res) => {
+  //       setRecipes(res.data);
+  //     });
+  //   }
+  // }, [method, category]);
 
   return (
     <>
