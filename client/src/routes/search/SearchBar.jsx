@@ -2,7 +2,7 @@ import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import { useState, useRef } from "react";
 import { METHOD, CATEGORY, INGREDIENT } from "../../constants/Constant.js";
 import SearchBtn from "./SearchBtn.jsx";
-import SearchInput from "./SearchInput.jsx";
+import SearchBox from "./SearchBox.jsx";
 import axios from "axios";
 
 const SearchBar = ({ setRecipes }) => {
@@ -124,12 +124,12 @@ const SearchBar = ({ setRecipes }) => {
           ))}
         </RadioGroup>
         <SearchBtn handleSearchClick={handleSearchClick}></SearchBtn>
-        <SearchInput
+        <SearchBox
           searchContent={searchContent}
           onSearchContentChange={onSearchContentChange}
           ref={searchInputRef}
           handleSearchBoxInputComplete={handleSearchBoxInputComplete}
-        ></SearchInput>
+        ></SearchBox>
       </div>
     </>
   );

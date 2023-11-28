@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 
-const SearchInput = (
+const SearchBox = (
   { searchContent, onSearchContentChange, handleSearchBoxInputComplete },
   ref
 ) => {
@@ -21,4 +21,4 @@ const SearchInput = (
   );
 };
 
-export default forwardRef(SearchInput);
+export default forwardRef(SearchBox);
