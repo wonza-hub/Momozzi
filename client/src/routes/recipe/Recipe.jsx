@@ -3,9 +3,11 @@ import { useParams, useLocation } from "react-router-dom";
 import Description from "./Description";
 import Ingredients from "./Ingredients";
 import Steps from "./Steps";
-import bg from "../../img/fridge_bg.png";
-
+import ReviewList from "./ReviewList";
+import { FaPencilAlt } from "react-icons/fa";
+import { IoCloseOutline } from "react-icons/io5";
 import axios from "axios";
+import bg from "../../img/fridge_bg.png";
 
 const Recipe = () => {
   const { postId } = useParams();
@@ -24,11 +26,38 @@ const Recipe = () => {
   //     });
   //   }, [recipeURL]);
 
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const handleReviewOpen = () => {
+    setIsReviewOpen(true);
+  };
+  const handleReviewClose = () => setIsReviewOpen(false);
+
   return (
     <>
       <div className="flex flex-row">
-        <div className="w-1/2 pt-[100px] h-screen bg-backgroundGray/20">
-          <img className="w-full h-full" src={bg} alt="" />
+        <div className="relative w-1/2 pt-[100px] h-screen bg-primary/20 flex flex-col">
+          {isReviewOpen ? (
+            <>
+              <ReviewList postId={postId}></ReviewList>
+              <form action="submit"></form>
+              <button
+                className="absolute right-8 bottom-8 w-14 h-14 bg-primary/80 hover:bg-primary/90 rounded-full"
+                onClick={handleReviewClose}
+              >
+                <IoCloseOutline className="m-auto text-3xl text-white/90" />
+              </button>
+            </>
+          ) : (
+            <>
+              <img className="w-full h-full" src={bg} alt="" />
+              <button
+                className="absolute right-8 bottom-8 w-14 h-14 bg-primary/80 hover:bg-primary/90 rounded-full"
+                onClick={handleReviewOpen}
+              >
+                <FaPencilAlt className="m-auto text-3xl text-white/90" />
+              </button>
+            </>
+          )}
         </div>
         <div className="w-1/2 pt-[100px] h-screen bg-backgroundGray/20 overflow-y-scroll">
           <div className="pt-[32px] px-[40px]">

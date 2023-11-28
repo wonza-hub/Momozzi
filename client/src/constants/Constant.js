@@ -118,3 +118,46 @@ export const dummyRecipe = [
     thumbnail_url: "./img/fridge_bg.png",
   },
 ];
+
+export const dummyReviews = [
+  {
+    id: 1,
+    username: "원일",
+    content: "너무 맛있어요!~~",
+  },
+  {
+    id: 2,
+    username: "원일",
+    content: "너무 맛있어요!~~",
+  },
+  {
+    id: 3,
+    username: "원일",
+    content: "너무 맛있어요!~~",
+  },
+  {
+    id: 4,
+    username: "원일",
+    content: "너무 맛있어요!~~",
+  },
+  {
+    id: 5,
+    username: "원일",
+    content: "너무 맛있어요!~~",
+  },
+  {
+    id: 6,
+    username: "원일",
+    content: "너무 맛있어요!~~",
+  },
+  {
+    id: 7,
+    username: "원일",
+    content: "너무 맛있어요!~~",
+  },
+  {
+    id: 8,
+    username: "원일",
+    content: "너무 맛있어요!~~",
+  },
+];
