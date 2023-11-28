@@ -71,7 +71,7 @@ const SearchBar = ({ setRecipes }) => {
 
   return (
     <>
-      <div className="w-[336px] px-[28px] pt-[100px] h-screen max-h-screen bg-secondary/60">
+      <div className="w-[334px] px-[28px] pt-[100px] h-screen max-h-screen bg-secondary/60">
         <header className="mb-2 text-[24px] font-semibold text-primary/90">
           Method
         </header>
