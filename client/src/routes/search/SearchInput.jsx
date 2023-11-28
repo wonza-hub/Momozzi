@@ -1,6 +1,9 @@
 import { forwardRef } from "react";
 
-const SearchInput = ({ searchContent, onSearchContentChange }, ref) => {
+const SearchInput = (
+  { searchContent, onSearchContentChange, handleSearchBoxInputComplete },
+  ref
+) => {
   return (
     <>
       <input
@@ -9,6 +12,9 @@ const SearchInput = ({ searchContent, onSearchContentChange }, ref) => {
         placeholder={"Cuisine name"}
         value={searchContent}
         onChange={onSearchContentChange}
+        onKeyDown={(e) =>
+          e.key === "Enter" ? handleSearchBoxInputComplete() : null
+        }
         ref={ref}
       ></input>
     </>

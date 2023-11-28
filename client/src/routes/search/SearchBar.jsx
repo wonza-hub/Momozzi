@@ -23,16 +23,13 @@ const SearchBar = ({ setRecipes }) => {
   };
 
   // 검색 버튼 클릭시 데이터 요청
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-
-    if (method || category || ingredient || searchContent) {
+  const handleSearchClick = () => {
+    if (method || category || ingredient) {
       const filterUrl = `${process.env.REACT_APP_SERVER}/`;
       const queryParams = {
         method: method,
         category: category,
         ingredient: ingredient,
-        searchContent: searchContent,
       };
       axios
         ?.get(filterUrl, { params: queryParams })
@@ -52,68 +49,87 @@ const SearchBar = ({ setRecipes }) => {
     setSearchContent(searchInputValue);
   };
 
+  // 검색창 입력시 데이터 요청
+  const handleSearchBoxInputComplete = () => {
+    if (searchContent) {
+      const filterUrl = `${process.env.REACT_APP_SERVER}/`;
+      const queryParams = {
+        searchContent: searchContent,
+      };
+      axios
+        ?.get(filterUrl, { params: queryParams })
+        ?.then((res) => {
+          setRecipes(res.data);
+        })
+        .catch((error) => {
+          console.error("음식 정보 불러오기 실패", error);
+        });
+    } else {
+      alert("검색어를 입력하세요");
+    }
+  };
+
   return (
     <>
       <div className="w-[336px] px-[28px] pt-[100px] h-screen max-h-screen bg-secondary/60">
-        <form onSubmit={handleSearchSubmit}>
-          <header className="mb-2 text-[24px] font-semibold text-primary/90">
-            Method
-          </header>
-          <RadioGroup
-            className="mb-4 h-[168px]"
-            value={method}
-            onChange={handleMethodChange}
-          >
-            {METHOD.map((method, idx) => (
-              <FormControlLabel
-                key={idx}
-                value={method}
-                control={<Radio color="success" />}
-                label={method}
-              />
-            ))}
-          </RadioGroup>
-          <header className="mb-2 text-[24px] font-semibold text-primary/90">
-            Category
-          </header>
-          <RadioGroup
-            className="mb-2 h-[128px]"
-            value={category}
-            onChange={handleCategoryChange}
-          >
-            {CATEGORY.map((category, idx) => (
-              <FormControlLabel
-                key={idx}
-                value={category}
-                control={<Radio color="success" />}
-                label={category}
-              />
-            ))}
-          </RadioGroup>
-          <header className="mb-2 text-[24px] font-semibold text-primary/90">
-            Ingredient
-          </header>
-          <RadioGroup
-            className="mb-2 h-[128px]"
-            value={ingredient}
-            onChange={handleIngredientsChange}
-          >
-            {INGREDIENT.map((ingredient, idx) => (
-              <FormControlLabel
-                key={idx}
-                value={ingredient}
-                control={<Radio color="success" />}
-                label={ingredient}
-              />
-            ))}
-          </RadioGroup>
-          <SearchBtn></SearchBtn>
-          <SearchInput
-            searchContent={searchContent}
-            onSearchContentChange={onSearchContentChange}
-            ref={searchInputRef}
-          ></SearchInput>
-        </form>
+        <header className="mb-2 text-[24px] font-semibold text-primary/90">
+          Method
+        </header>
+        <RadioGroup
+          className="mb-4 h-[168px]"
+          value={method}
+          onChange={handleMethodChange}
+        >
+          {METHOD.map((method, idx) => (
+            <FormControlLabel
+              key={idx}
+              value={method}
+              control={<Radio color="success" />}
+              label={method}
+            />
+          ))}
+        </RadioGroup>
+        <header className="mb-2 text-[24px] font-semibold text-primary/90">
+          Category
+        </header>
+        <RadioGroup
+          className="mb-2 h-[128px]"
+          value={category}
+          onChange={handleCategoryChange}
+        >
+          {CATEGORY.map((category, idx) => (
+            <FormControlLabel
+              key={idx}
+              value={category}
+              control={<Radio color="success" />}
+              label={category}
+            />
+          ))}
+        </RadioGroup>
+        <header className="mb-2 text-[24px] font-semibold text-primary/90">
+          Ingredient
+        </header>
+        <RadioGroup
+          className="mb-2 h-[128px]"
+          value={ingredient}
+          onChange={handleIngredientsChange}
+        >
+          {INGREDIENT.map((ingredient, idx) => (
+            <FormControlLabel
+              key={idx}
+              value={ingredient}
+              control={<Radio color="success" />}
+              label={ingredient}
+            />
+          ))}
+        </RadioGroup>
+        <SearchBtn handleSearchClick={handleSearchClick}></SearchBtn>
+        <SearchInput
+          searchContent={searchContent}
+          onSearchContentChange={onSearchContentChange}
+          ref={searchInputRef}
+          handleSearchBoxInputComplete={handleSearchBoxInputComplete}
+        ></SearchInput>
       </div>
     </>
   );
