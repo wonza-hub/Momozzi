@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Refrigerator from "./routes/refrigerator/Refrigerator";
-import CuisineSearcher from "./routes/search/CuisineSearcher";
+import RecipeSearcher from "./routes/search/RecipeSearcher";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={"refrigerator"} element={<Refrigerator />} />
-        <Route path={"search"} element={<CuisineSearcher />} />
+        <Route path={"search"} element={<RecipeSearcher />} />
       </Routes>
     </BrowserRouter>
   );
