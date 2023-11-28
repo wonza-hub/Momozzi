@@ -9,7 +9,7 @@ const RecommendBtn = ({ method, category, userId }) => {
         className="w-44 h-12 px-4 my-auto bg-primary/90 text-xl text-white rounded-xl"
         onClick={() => {
           if (method || category) {
-            navigate("/foodList", {
+            navigate("/search", {
               state: {
                 foodFilter: {
                   method,
