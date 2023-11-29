@@ -7,6 +7,7 @@ import ReviewList from "./ReviewList";
 import ReviewInputBox from "./ReviewInputBox";
 import { FaPencilAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
+import { MdOutlineTimer } from "react-icons/md";
 
 // dummy
 import bg from "../../img/fridge_bg.png";
@@ -15,8 +16,12 @@ import { dummyReviews } from "../../constants/Constant";
 const Recipe = () => {
   const { reviewId } = useParams();
   const location = useLocation();
-  const { cookTime, description, process, thumbnailURL } =
-    location.state.recipe;
+  const {
+    cook_time: cookTime,
+    description,
+    process,
+    thumbnailURL,
+  } = location.state.recipe;
   const steps = process.split(".");
 
   const [ingredients, setIngredients] = useState([]);
@@ -66,6 +71,10 @@ const Recipe = () => {
           ) : (
             <>
               <img className="w-full h-full" src={bg} alt="" />
+              <div className="absolute right-8 bottom-24 w-14 h-14 pt-2 bg-primary/80 rounded-full text-center">
+                <MdOutlineTimer className="m-auto text-2xl text-white/90" />
+                <span className="text-white">{cookTime}</span>
+              </div>
               <button
                 className="absolute right-8 bottom-8 w-14 h-14 bg-primary/80 hover:bg-primary/90 rounded-full"
                 onClick={handleReviewOpen}
