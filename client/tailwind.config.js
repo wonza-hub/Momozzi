@@ -15,6 +15,11 @@ module.exports = {
       },
       outlineColor: {
         primary: "#435334",
+        secondary: "#9EB384",
+      },
+      borderColor: {
+        primary: "#435334",
+        secondary: "#9EB384",
       },
     },
   },

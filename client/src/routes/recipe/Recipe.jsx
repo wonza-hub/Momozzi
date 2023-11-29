@@ -70,16 +70,20 @@ const Recipe = () => {
             </>
           ) : (
             <>
-              <img className="w-full h-full" src={bg} alt="" />
-              <div className="absolute right-8 bottom-24 w-14 h-14 pt-2 bg-primary/80 rounded-full text-center">
+              <img
+                className="w-full h-full contrast-120 brightness-95"
+                src={bg}
+                alt=""
+              />
+              <div className="absolute right-8 bottom-24 w-14 h-14 pt-2 bg-primary/90 rounded-full text-center">
                 <MdOutlineTimer className="m-auto text-2xl text-white/90" />
                 <span className="text-white">{cookTime}</span>
               </div>
               <button
-                className="absolute right-8 bottom-8 w-14 h-14 bg-primary/80 hover:bg-primary/90 rounded-full"
+                className="absolute right-8 bottom-8 w-14 h-14 bg-primary/90 hover:bg-primary rounded-full"
                 onClick={handleReviewOpen}
               >
-                <FaPencilAlt className="m-auto text-3xl text-white/90" />
+                <FaPencilAlt className="m-auto text-2xl text-white/90" />
               </button>
             </>
           )}
