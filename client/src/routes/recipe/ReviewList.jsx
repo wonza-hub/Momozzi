@@ -3,19 +3,7 @@ import { memo } from "react";
 import axios from "axios";
 import { dummyReviews } from "../../constants/Constant";
 
-const ReviewList = ({ postId }) => {
-  const [reviews, setReviews] = useState([]);
-
-  // 레시피 리뷰 목록 조회
-  const reviewURL = `${process.env.REACT_APP_SERVER}/recipe/${postId}/review`;
-  useEffect(() => {
-    setReviews(dummyReviews);
-
-    // axios?.get(reviewURL)?.then((res) => {
-    //   setReviews(res.data);
-    // });
-  }, []);
-
+const ReviewList = ({ reviews }) => {
   return (
     <div className="h-[600px] pt-12 p-20 overflow-y-auto">
       {reviews.map((review) => {
