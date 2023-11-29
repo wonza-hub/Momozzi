@@ -6,7 +6,7 @@ const RecommendBtn = ({ method, category, userId }) => {
   return (
     <>
       <button
-        className="w-44 h-12 px-4 my-auto bg-primary/90 text-xl text-white rounded-xl"
+        className="w-44 h-12 px-4 my-auto bg-primary/90 text-xl text-white rounded-xl hover:bg-primary"
         onClick={() => {
           if (method || category) {
             navigate("/search", {
