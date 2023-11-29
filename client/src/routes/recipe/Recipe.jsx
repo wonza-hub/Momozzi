@@ -4,13 +4,16 @@ import Description from "./Description";
 import Ingredients from "./Ingredients";
 import Steps from "./Steps";
 import ReviewList from "./ReviewList";
+import ReviewInputBox from "./ReviewInputBox";
 import { FaPencilAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
-import axios from "axios";
+
+// dummy
 import bg from "../../img/fridge_bg.png";
+import { dummyReviews } from "../../constants/Constant";
 
 const Recipe = () => {
-  const { postId } = useParams();
+  const { reviewId } = useParams();
   const location = useLocation();
   const { cookTime, description, process, thumbnailURL } =
     location.state.recipe;
@@ -18,19 +21,32 @@ const Recipe = () => {
 
   const [ingredients, setIngredients] = useState([]);
 
+  const [reviews, setReviews] = useState([]);
+
   // 레시피 단건 조회
-  //   const recipeURL = `${process.env.REACT_APP_SERVER}/recipe/${postId}`;
+  //   const recipeURL = `${process.env.REACT_APP_SERVER}/recipe/${reviewId}`;
   //   useEffect(() => {
   //     axios?.get(recipeURL)?.then((res) => {
   //       setIngredients(res.data.response);
   //     });
   //   }, [recipeURL]);
 
+  // 리뷰창 토글
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const handleReviewOpen = () => {
     setIsReviewOpen(true);
   };
   const handleReviewClose = () => setIsReviewOpen(false);
+
+  // 레시피 리뷰 목록 조회
+  // const reviewURL = `${process.env.REACT_APP_SERVER}/recipe/${reviewId}/review`;
+  useEffect(() => {
+    setReviews(dummyReviews);
+
+    // axios?.get(reviewURL)?.then((res) => {
+    //   setReviews(res.data);
+    // });
+  }, []);
 
   return (
     <>
@@ -38,8 +54,8 @@ const Recipe = () => {
         <div className="relative w-1/2 pt-[100px] h-screen bg-primary/20 flex flex-col">
           {isReviewOpen ? (
             <>
-              <ReviewList postId={postId}></ReviewList>
-              <form action="submit"></form>
+              <ReviewList reviews={reviews}></ReviewList>
+              <ReviewInputBox setReviews={setReviews}></ReviewInputBox>
               <button
                 className="absolute right-8 bottom-8 w-14 h-14 bg-primary/80 hover:bg-primary/90 rounded-full"
                 onClick={handleReviewClose}
