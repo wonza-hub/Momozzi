@@ -71,8 +71,8 @@ const SearchBar = ({ setRecipes }) => {
 
   return (
     <>
-      <div className="w-[334px] px-[28px] pt-[100px] h-screen max-h-screen bg-secondary/40">
-        <header className="mb-2 text-[24px] font-semibold text-primary/90">
+      <div className="w-[334px] px-[28px] pt-[110px] h-screen max-h-screen bg-secondary/40">
+        <header className="my-2 text-[24px] font-semibold text-primary/90">
           Method
         </header>
         <RadioGroup

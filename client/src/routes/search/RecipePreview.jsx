@@ -18,7 +18,7 @@ const RecipePreview = ({ recipe }) => {
         >
           <div className="thumbnail h-[328px] rounded-2xl overflow-hidden shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
             <img
-              className="w-full max-w-full h-full object-cover brightness-95"
+              className="w-full max-w-full h-full object-cover contrast-120 brightness-95"
               src={bg}
               alt={"recipeThumbnail"}
             />
