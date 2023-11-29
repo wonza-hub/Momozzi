@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
 import { memo } from "react";
-import axios from "axios";
 import Review from "./Review";
 
+// dummy
 import { dummyReviews } from "../../constants/Constant";
 
 const ReviewList = ({ reviews }) => {

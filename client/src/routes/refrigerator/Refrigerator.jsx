@@ -1,15 +1,18 @@
 import Inventory from "./Inventory";
+import IngredientRegistration from "./IngredientRegistration";
 import RecommendFilter from "./RecommendFilter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Refrigerator = () => {
   const [storedIngredients, setStoredIngredients] = useState([]);
 
-  // let openFridgeUrl = `${process.env.REACT_APP_SERVER}/userid?${userId}`;
-  // axios?.get(openFridgeUrl)?.then((res) => {
-  //   setStoredIngredients(res.data);
-  // });
+  // useEffect(() => {
+  //   let openFridgeUrl = `${process.env.REACT_APP_SERVER}/userid?${userId}`;
+  //   axios?.get(openFridgeUrl)?.then((res) => {
+  //     setStoredIngredients(res.data);
+  //   });
+  // }, []);
 
   return (
     <>
@@ -18,6 +21,9 @@ const Refrigerator = () => {
         {/* box shadows - next.js */}
         <div className="absolute bg-white/80 top-[450px] left-2/4 min-h-[560px] -translate-x-2/4 -translate-y-[320px] px-12 pt-10 rounded-2xl opacity-85 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
           <Inventory storedIngredients={storedIngredients}></Inventory>
+          <IngredientRegistration
+            setStoredIngredients={setStoredIngredients}
+          ></IngredientRegistration>
           <RecommendFilter></RecommendFilter>
         </div>
       </div>

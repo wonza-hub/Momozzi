@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { redirect, useParams } from "react-router-dom";
 import axios from "axios";
 
 const ReviewInputBox = ({ setReviews }) => {
@@ -14,31 +14,15 @@ const ReviewInputBox = ({ setReviews }) => {
     setNewReview(reviewInputRef.current.value);
   };
 
-  const handleReviewSubmit = () => {
+  const handleReviewSubmit = (event) => {
+    event.preventDefault();
+
     const reviewPostURL = `${process.env.REACT_APP_SERVER}/review/${reviewPostId}`;
     axios
-      ?.post(
-        reviewPostURL,
-        { newReview },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      ?.post(reviewPostURL, newReview)
       ?.then((res) => {
         if (res.status === 200) {
-          // POST 요청이 성공적으로 완료될 때, 데이터를 다시 가져와 주입
-          axios
-            .get(`${process.env.REACT_APP_SERVER}/`)
-            .then((response) => {
-              const newData = response.data;
-              setReviews(newData);
-              setIsLoading(false);
-            })
-            .catch((error) => {
-              console.error("데이터를 다시 가져오는 중 오류 발생:", error);
-            });
+          return redirect(`/recipe/${reviewPostId}`);
         }
       })
       ?.catch(() => console.log("post fail"));
