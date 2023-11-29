@@ -1,11 +1,15 @@
 import Inventory from "./Inventory";
-import OpenBtn from "./OpenBtn";
 import RecommendFilter from "./RecommendFilter";
 import { useState } from "react";
 import axios from "axios";
 
 const Refrigerator = () => {
   const [storedIngredients, setStoredIngredients] = useState([]);
+
+  // let openFridgeUrl = `${process.env.REACT_APP_SERVER}/userid?${userId}`;
+  // axios?.get(openFridgeUrl)?.then((res) => {
+  //   setStoredIngredients(res.data);
+  // });
 
   return (
     <>
@@ -16,10 +20,6 @@ const Refrigerator = () => {
           <Inventory storedIngredients={storedIngredients}></Inventory>
           <RecommendFilter></RecommendFilter>
         </div>
-        <OpenBtn
-          // userId={userId}
-          setStoredIngredients={setStoredIngredients}
-        ></OpenBtn>
       </div>
     </>
   );
