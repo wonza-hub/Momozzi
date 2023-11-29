@@ -43,14 +43,14 @@ const IngredientRegistration = () => {
           <input
             onChange={handleIngredientInputChange}
             value={newIngredient}
-            className="w-44 h-12 mr-6 px-4 py-2 bg-[#efefef] border-none rounded-xl outline-2 outline-primary text-xl text-black/90 hover:bg-[#efefef]/70"
+            className="w-44 h-12 mr-6 px-4 py-2 bg-[#efefef]/80 rounded-xl border-2 border-primary outline-2 outline-primary text-lg text-black/90 hover:bg-[#efefef] focus:bg-[#efefef] duration-200"
             type="text"
             placeholder="재료 추가"
             ref={ingredientInputRef}
           />
         )}
         <button
-          className="w-32 h-12 px-4 my-auto bg-primary/90 text-xl text-white rounded-xl hover:bg-primary"
+          className="w-32 h-12 px-4 my-auto bg-primary/90 text-xl text-white rounded-xl hover:bg-primary duration-300"
           type="submit"
         >
           Add
