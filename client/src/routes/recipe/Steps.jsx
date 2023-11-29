@@ -1,7 +1,7 @@
 const Steps = ({ steps }) => {
   return (
     <>
-      <header className="mb-5 text-3xl font-bold text-primary drop-shadow-md">
+      <header className="mb-5 text-3xl font-bold text-primary drop-shadow-sm">
         Step
       </header>
       <div className="steps">
