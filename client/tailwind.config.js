@@ -13,6 +13,9 @@ module.exports = {
         secondary: "#9EB384",
         black: "#111111",
       },
+      outlineColor: {
+        primary: "#435334",
+      },
     },
   },
   plugins: [],
