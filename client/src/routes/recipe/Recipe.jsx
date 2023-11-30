@@ -4,7 +4,7 @@ import Description from "./Description";
 import Ingredients from "./Ingredients";
 import Steps from "./Steps";
 import ReviewList from "./ReviewList";
-import ReviewInputBox from "./ReviewInputBox";
+import ReviewRegistration from "./ReviewRegistration";
 import { FaPencilAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlineTimer } from "react-icons/md";
@@ -60,7 +60,7 @@ const Recipe = () => {
           {isReviewOpen ? (
             <>
               <ReviewList reviews={reviews}></ReviewList>
-              <ReviewInputBox setReviews={setReviews}></ReviewInputBox>
+              <ReviewRegistration setReviews={setReviews}></ReviewRegistration>
               <button
                 className="absolute right-8 bottom-8 w-14 h-14 bg-primary/80 hover:bg-primary/90 rounded-full"
                 onClick={handleReviewClose}
