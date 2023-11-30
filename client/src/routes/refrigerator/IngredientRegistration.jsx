@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { redirect } from "react-router-dom";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const IngredientRegistration = () => {
   const [newIngredient, setNewIngredient] = useState("");
@@ -14,6 +15,7 @@ const IngredientRegistration = () => {
 
   const addIngredient = (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     if (!newIngredient) {
       return;
@@ -36,8 +38,8 @@ const IngredientRegistration = () => {
         onSubmit={addIngredient}
       >
         {isLoading ? (
-          <div class="w-full h-full pt-2 pb-1 flex justify-center">
-            {/* <LoadingSpinner></LoadingSpinner> */}
+          <div className="w-44 h-12 pt-1 flex justify-center">
+            <CircularProgress color="success" className="text-xl" />
           </div>
         ) : (
           <input
@@ -51,7 +53,7 @@ const IngredientRegistration = () => {
         )}
         <button
           className="w-32 h-12 px-4 my-auto bg-primary/90 text-xl text-white rounded-xl hover:bg-primary duration-300"
-          type="submit"
+          type={isLoading ? "button" : "submit"}
         >
           Add
         </button>
