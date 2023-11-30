@@ -1,8 +1,9 @@
 import { useState, useRef } from "react";
 import { redirect, useParams } from "react-router-dom";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const ReviewInputBox = ({ setReviews }) => {
+const ReviewRegistration = ({ setReviews }) => {
   const { reviewPostId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +17,7 @@ const ReviewInputBox = ({ setReviews }) => {
 
   const handleReviewSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     const reviewPostURL = `${process.env.REACT_APP_SERVER}/review/${reviewPostId}`;
     axios
@@ -32,8 +34,8 @@ const ReviewInputBox = ({ setReviews }) => {
     <>
       <form className="flex-auto mr-2" onSubmit={handleReviewSubmit}>
         {isLoading ? (
-          <div class="w-full h-full pt-2 pb-1 flex justify-center">
-            {/* <LoadingSpinner></LoadingSpinner> */}
+          <div className="w-full h-full flex justify-center items-center">
+            <CircularProgress color="success" />
           </div>
         ) : (
           <input
@@ -50,4 +52,4 @@ const ReviewInputBox = ({ setReviews }) => {
   );
 };
 
-export default ReviewInputBox;
+export default ReviewRegistration;
