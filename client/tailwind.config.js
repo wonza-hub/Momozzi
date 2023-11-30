@@ -7,6 +7,7 @@ module.exports = {
         primary: "#435334",
         secondary: "#9EB384",
         backgroundGray: "#DBDBDB",
+        kakao: "#FAE100",
       },
       textColor: {
         primary: "#435334",
