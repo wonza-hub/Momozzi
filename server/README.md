@@ -25,9 +25,11 @@
 
 ### Recipe
 - **GET /api/recipe/**: Retrieve all recipes or a specific recipe by appending `?recipe_id={recipe_id}` to the URL.
+- **GET /api/recipe/search?keyword={keyword}**: Search for recipes by keyword.
 - **POST /api/recipe/**: Add a new recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).
 - **DELETE /api/recipe/**: Delete a recipe (send `recipe_id` in request body).
 - **PUT /api/recipe/**: Update a recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).
+
 
 ### Ingredient
 - **GET /api/ingredient/**: Retrieve all ingredients or a specific ingredient by appending `?ingredient_name={ingredient_name}` to the URL.

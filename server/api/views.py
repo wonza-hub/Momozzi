@@ -178,6 +178,18 @@ def recipe(request):
         except Exception as e:
             return HttpResponse(e)
 
+def recipe_search(request):
+    if request.method == "GET":
+        keyword = request.GET.get("keyword")
+        if keyword is None:
+            return HttpResponse("No keyword")
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe WHERE description LIKE %s", ["%" + keyword + "%"])
+                recipes = cursor.fetchall()
+                recipes = json.dumps(recipes)
+                return HttpResponse(recipes)
+
 
 ### Ingredient ###
 def ingredient(request):
