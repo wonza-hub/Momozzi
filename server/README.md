@@ -12,57 +12,51 @@
 ## Endpoints
 
 ### User
-- **GET /api/user/**: Retrieve all users.
-- **GET /api/user/{user_id}**: Get a specific user by ID.
+- **GET /api/user/**: Retrieve all users or a specific user by appending `?user_id={user_id}` to the URL.
 - **POST /api/user/**: Add a new user (send `user_id`, `first_name`, `last_name`, and `age` in request body).
 - **DELETE /api/user/**: Delete a user (send `user_id` in request body).
 - **PUT /api/user/**: Update a user (send `user_id`, `first_name`, `last_name`, and `age` in request body).
 
 ### Cuisine
-- **GET /api/cuisine/**: Retrieve all cuisines.
-- **GET /api/cuisine/{cuisine_name}**: Get a specific cuisine by name.
+- **GET /api/cuisine/**: Retrieve all cuisines or a specific cuisine by appending `?cuisine_name={cuisine_name}` to the URL.
 - **POST /api/cuisine/**: Add a new cuisine (send `cuisine_name`, `method`, and `category` in request body).
 - **DELETE /api/cuisine/**: Delete a cuisine (send `cuisine_name` in request body).
 - **PUT /api/cuisine/**: Update a cuisine (send `cuisine_name`, `method`, and `category` in request body).
 
 ### Recipe
-- **GET /api/recipe/**: Retrieve all recipes.
-- **GET /api/recipe/{recipe_id}**: Get a specific recipe by ID.
+- **GET /api/recipe/**: Retrieve all recipes or a specific recipe by appending `?recipe_id={recipe_id}` to the URL.
+- **GET /api/recipe/search?keyword={keyword}**: Search for recipes by keyword.
 - **POST /api/recipe/**: Add a new recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).
 - **DELETE /api/recipe/**: Delete a recipe (send `recipe_id` in request body).
 - **PUT /api/recipe/**: Update a recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).
 
+
 ### Ingredient
-- **GET /api/ingredient/**: Retrieve all ingredients.
-- **GET /api/ingredient/{ingredient_name}**: Get a specific ingredient by name.
+- **GET /api/ingredient/**: Retrieve all ingredients or a specific ingredient by appending `?ingredient_name={ingredient_name}` to the URL.
 - **POST /api/ingredient/**: Add a new ingredient (send `ingredient_name`, `type`, and `calories` in request body).
 - **DELETE /api/ingredient/**: Delete an ingredient (send `ingredient_name` in request body).
 - **PUT /api/ingredient/**: Update an ingredient (send `ingredient_name`, `type`, and `calories` in request body).
 
 ### Review
-- **GET /api/review/**: Retrieve all reviews.
-- **GET /api/review/{review_id}**: Get a specific review by ID.
+- **GET /api/review/**: Retrieve all reviews or a specific review by appending `?review_id={review_id}` to the URL.
 - **POST /api/review/**: Add a new review (send `review_id`, `content`, `user_id`, and `recipe_id` in request body).
 - **DELETE /api/review/**: Delete a review (send `review_id` in request body).
 - **PUT /api/review/**: Update a review (send `review_id`, `content`, `user_id`, and `recipe_id` in request body).
 
 ### Recipe Needs Ingredient
-- **GET /api/recipe_needs_ingredient/**: Retrieve all recipe-ingredient relationships.
-- **GET /api/recipe_needs_ingredient/{recipe_id}/{ingredient_name}**: Get a specific recipe-ingredient relationship.
+- **GET /api/recipe_needs_ingredient/**: Retrieve all recipe-ingredient relationships or specific ones by appending `?recipe_id={recipe_id}&ingredient_name={ingredient_name}` to the URL.
 - **POST /api/recipe_needs_ingredient/**: Add a new recipe-ingredient relationship (send `recipe_id` and `ingredient_name` in request body).
 - **DELETE /api/recipe_needs_ingredient/**: Delete a recipe-ingredient relationship (send `recipe_id` and `ingredient_name` in request body).
 - **PUT /api/recipe_needs_ingredient/**: Update a recipe-ingredient relationship (send `recipe_id` and `ingredient_name` in request body).
 
 ### Refrigerator
-- **GET /api/refrigerator/**: Retrieve all refrigerators.
-- **GET /api/refrigerator/{user_id}/{created_at}**: Get a specific refrigerator by user ID and creation date.
+- **GET /api/refrigerator/**: Retrieve all refrigerators or a specific refrigerator by appending `?user_id={user_id}&created_at={created_at}` to the URL.
 - **POST /api/refrigerator/**: Add a new refrigerator (send `user_id`, `created_at`, and `capacity` in request body).
 - **DELETE /api/refrigerator/**: Delete a refrigerator (send `user_id` and `created_at` in request body).
 - **PUT /api/refrigerator/**: Update a refrigerator (send `user_id`, `created_at`, and `capacity` in request body).
 
 ### Refrigerator Stores Ingredient
-- **GET /api/refrigerator_stores_ingredient/**: Retrieve all refrigerator-ingredient relationships.
-- **GET /api/refrigerator_stores_ingredient/{refrigerator}/{ingredient_name}**: Get a specific refrigerator-ingredient relationship.
+- **GET /api/refrigerator_stores_ingredient/**: Retrieve all refrigerator-ingredient relationships or a specific relationship by appending `?refrigerator={refrigerator}&ingredient_name={ingredient_name}` to the URL.
 - **POST /api/refrigerator_stores_ingredient/**: Add a new refrigerator-ingredient relationship (send `refrigerator` and `ingredient_name` in request body).
 - **DELETE /api/refrigerator_stores_ingredient/**: Delete a refrigerator-ingredient relationship (send `refrigerator` and `ingredient_name` in request body).
 - **PUT /api/refrigerator_stores_ingredient/**: Update a refrigerator-ingredient relationship (send `refrigerator` and `ingredient_name` in request body).

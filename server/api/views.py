@@ -10,13 +10,21 @@ def index(request):
     return HttpResponse("Hello, world. You're at the index.")
 
 ### User ###
-def user(request):
+def user(request):    
     if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_user")
-            users = cursor.fetchall()
-            users = json.dumps(users)
-            return HttpResponse(users)
+        user_id = request.GET.get("user_id")
+        if user_id is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_user")
+                users = cursor.fetchall()
+                users = json.dumps(users)
+                return HttpResponse(users)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_user WHERE user_id = %s", [user_id])
+                user = cursor.fetchall()
+                user = json.dumps(user)
+                return HttpResponse(user)
     
     elif request.method == "POST":
         try:
@@ -56,24 +64,24 @@ def user(request):
                 return HttpResponse("User updated")
         except Exception as e:
             return HttpResponse(e)
-
-def get_user(request, user_id):
-    if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_user WHERE user_id = %s", [user_id])
-            user = cursor.fetchall()
-            user = json.dumps(user)
-            return HttpResponse(user)
         
 
 ### Cuisine ###
 def cuisine(request):
     if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_cuisine")
-            cuisines = cursor.fetchall()
-            cuisines = json.dumps(cuisines)
-            return HttpResponse(cuisines)
+        cuisine_name = request.GET.get("cuisine_name")
+        if cuisine_name is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_cuisine")
+                cuisines = cursor.fetchall()
+                cuisines = json.dumps(cuisines)
+                return HttpResponse(cuisines)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_cuisine WHERE cuisine_name = %s", [cuisine_name])
+                cuisine = cursor.fetchall()
+                cuisine = json.dumps(cuisine)
+                return HttpResponse(cuisine)
     
     elif request.method == "POST":
         try:
@@ -111,24 +119,23 @@ def cuisine(request):
                 return HttpResponse("Cuisine updated")
         except Exception as e:
             return HttpResponse(e)
-        
-def get_cuisine(request, cuisine_name):
-    if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_cuisine WHERE cuisine_name = %s", [cuisine_name])
-            cuisine = cursor.fetchall()
-            cuisine = json.dumps(cuisine)
-            return HttpResponse(cuisine)
-
 
 ### Recipe ###
 def recipe(request):
     if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_recipe")
-            recipes = cursor.fetchall()
-            recipes = json.dumps(recipes)
-            return HttpResponse(recipes)
+        recipe_id = request.GET.get("recipe_id")
+        if recipe_id is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe")
+                recipes = cursor.fetchall()
+                recipes = json.dumps(recipes)
+                return HttpResponse(recipes)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe WHERE recipe_id = %s", [recipe_id])
+                recipe = cursor.fetchall()
+                recipe = json.dumps(recipe)
+                return HttpResponse(recipe)
     
     elif request.method == "POST":
         try:
@@ -170,24 +177,36 @@ def recipe(request):
                 return HttpResponse("Recipe updated")
         except Exception as e:
             return HttpResponse(e)
-        
-def get_recipe(request, recipe_id):
+
+def recipe_search(request):
     if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_recipe WHERE recipe_id = %s", [recipe_id])
-            recipe = cursor.fetchall()
-            recipe = json.dumps(recipe)
-            return HttpResponse(recipe)
+        keyword = request.GET.get("keyword")
+        if keyword is None:
+            return HttpResponse("No keyword")
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe WHERE description LIKE %s", ["%" + keyword + "%"])
+                recipes = cursor.fetchall()
+                recipes = json.dumps(recipes)
+                return HttpResponse(recipes)
 
 
 ### Ingredient ###
 def ingredient(request):
     if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_ingredient")
-            ingredients = cursor.fetchall()
-            ingredients = json.dumps(ingredients)
-            return HttpResponse(ingredients)
+        ingredient_name = request.GET.get("ingredient_name")
+        if ingredient_name is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_ingredient")
+                ingredients = cursor.fetchall()
+                ingredients = json.dumps(ingredients)
+                return HttpResponse(ingredients)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_ingredient WHERE ingredient_name = %s", [ingredient_name])
+                ingredient = cursor.fetchall()
+                ingredient = json.dumps(ingredient)
+                return HttpResponse(ingredient)
     
     elif request.method == "POST":
         try:
@@ -226,23 +245,23 @@ def ingredient(request):
         except Exception as e:
             return HttpResponse(e)
 
-def get_ingredient(request, ingredient_name):
-    if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_ingredient WHERE ingredient_name = %s", [ingredient_name])
-            ingredient = cursor.fetchall()
-            ingredient = json.dumps(ingredient)
-            return HttpResponse(ingredient)
-
 
 ### Review ###
 def review(request):
     if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_review")
-            reviews = cursor.fetchall()
-            reviews = json.dumps(reviews)
-            return HttpResponse(reviews)
+        review_id = request.GET.get("review_id")
+        if review_id is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_review")
+                reviews = cursor.fetchall()
+                reviews = json.dumps(reviews)
+                return HttpResponse(reviews)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_review WHERE review_id = %s", [review_id])
+                review = cursor.fetchall()
+                review = json.dumps(review)
+                return HttpResponse(review)
     
     elif request.method == "POST":
         try:
@@ -283,23 +302,37 @@ def review(request):
         except Exception as e:
             return HttpResponse(e)
 
-def get_review(request, review_id):
-    if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_review WHERE review_id = %s", [review_id])
-            review = cursor.fetchall()
-            review = json.dumps(review)
-            return HttpResponse(review)
 
 
 ### Recipe Needs Ingredient ###
 def recipe_needs_ingredient(request):
     if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_recipe_needs_ingredient")
-            recipe_needs_ingredients = cursor.fetchall()
-            recipe_needs_ingredients = json.dumps(recipe_needs_ingredients)
-            return HttpResponse(recipe_needs_ingredients)
+        recipe_id = request.GET.get("recipe_id")
+        ingredient_name = request.GET.get("ingredient_name")
+        if recipe_id is None and ingredient_name is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe_needs_ingredient")
+                recipe_needs_ingredients = cursor.fetchall()
+                recipe_needs_ingredients = json.dumps(recipe_needs_ingredients)
+                return HttpResponse(recipe_needs_ingredients)
+        elif recipe_id is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe_needs_ingredient WHERE ingredient_name = %s", [ingredient_name])
+                recipe_needs_ingredients = cursor.fetchall()
+                recipe_needs_ingredients = json.dumps(recipe_needs_ingredients)
+                return HttpResponse(recipe_needs_ingredients)
+        elif ingredient_name is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe_needs_ingredient WHERE recipe_id = %s", [recipe_id])
+                recipe_needs_ingredients = cursor.fetchall()
+                recipe_needs_ingredients = json.dumps(recipe_needs_ingredients)
+                return HttpResponse(recipe_needs_ingredients)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe_needs_ingredient WHERE recipe_id = %s AND ingredient_name = %s", [recipe_id, ingredient_name])
+                recipe_needs_ingredient = cursor.fetchall()
+                recipe_needs_ingredient = json.dumps(recipe_needs_ingredient)
+                return HttpResponse(recipe_needs_ingredient)
     
     elif request.method == "POST":
         try:
@@ -337,23 +370,37 @@ def recipe_needs_ingredient(request):
         except Exception as e:
             return HttpResponse(e)
 
-def get_recipe_needs_ingredient(request, recipe_id, ingredient_name):
-    if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_recipe_needs_ingredient WHERE recipe_id = %s AND ingredient_name = %s", [recipe_id, ingredient_name])
-            recipe_needs_ingredient = cursor.fetchall()
-            recipe_needs_ingredient = json.dumps(recipe_needs_ingredient)
-            return HttpResponse(recipe_needs_ingredient)
 
 
 ### Refrigerator ###
 def refrigerator(request):
     if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_refrigerator")
-            refrigerators = cursor.fetchall()
-            refrigerators = json.dumps(refrigerators)
-            return HttpResponse(refrigerators)
+        user_id = request.GET.get("user_id")
+        created_at = request.GET.get("created_at")
+        if user_id is None and created_at is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_refrigerator")
+                refrigerators = cursor.fetchall()
+                refrigerators = json.dumps(refrigerators)
+                return HttpResponse(refrigerators)
+        elif user_id is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_refrigerator WHERE created_at = %s", [created_at])
+                refrigerators = cursor.fetchall()
+                refrigerators = json.dumps(refrigerators)
+                return HttpResponse(refrigerators)
+        elif created_at is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_refrigerator WHERE user_id = %s", [user_id])
+                refrigerators = cursor.fetchall()
+                refrigerators = json.dumps(refrigerators)
+                return HttpResponse(refrigerators)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_refrigerator WHERE user_id = %s AND created_at = %s", [user_id, created_at])
+                refrigerator = cursor.fetchall()
+                refrigerator = json.dumps(refrigerator)
+                return HttpResponse(refrigerator)
     
     elif request.method == "POST":
         try:
@@ -394,23 +441,37 @@ def refrigerator(request):
         except Exception as e:
             return HttpResponse(e)
 
-def get_refrigerator(request, user_id, created_at):
-    if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_refrigerator WHERE user_id = %s AND created_at = %s", [user_id, created_at])
-            refrigerator = cursor.fetchall()
-            refrigerator = json.dumps(refrigerator)
-            return HttpResponse(refrigerator)
 
 
 ### Refrigerator Stores Ingredient ###
 def refrigerator_stores_ingredient(request):
     if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient")
-            refrigerator_stores_ingredients = cursor.fetchall()
-            refrigerator_stores_ingredients = json.dumps(refrigerator_stores_ingredients)
-            return HttpResponse(refrigerator_stores_ingredients)
+        refrigerator = request.GET.get("refrigerator")
+        ingredient_name = request.GET.get("ingredient_name")
+        if refrigerator is None and ingredient_name is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient")
+                refrigerator_stores_ingredients = cursor.fetchall()
+                refrigerator_stores_ingredients = json.dumps(refrigerator_stores_ingredients)
+                return HttpResponse(refrigerator_stores_ingredients)
+        elif refrigerator is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE ingredient_name = %s", [ingredient_name])
+                refrigerator_stores_ingredients = cursor.fetchall()
+                refrigerator_stores_ingredients = json.dumps(refrigerator_stores_ingredients)
+                return HttpResponse(refrigerator_stores_ingredients)
+        elif ingredient_name is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator = %s", [refrigerator])
+                refrigerator_stores_ingredients = cursor.fetchall()
+                refrigerator_stores_ingredients = json.dumps(refrigerator_stores_ingredients)
+                return HttpResponse(refrigerator_stores_ingredients)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator = %s AND ingredient_name = %s", [refrigerator, ingredient_name])
+                refrigerator_stores_ingredient = cursor.fetchall()
+                refrigerator_stores_ingredient = json.dumps(refrigerator_stores_ingredient)
+                return HttpResponse(refrigerator_stores_ingredient)
     
     elif request.method == "POST":
         try:
@@ -448,13 +509,6 @@ def refrigerator_stores_ingredient(request):
         except Exception as e:
             return HttpResponse(e)
 
-def get_refrigerator_stores_ingredient(request, refrigerator, ingredient_name):
-    if request.method == "GET":
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator = %s AND ingredient_name = %s", [refrigerator, ingredient_name])
-            refrigerator_stores_ingredient = cursor.fetchall()
-            refrigerator_stores_ingredient = json.dumps(refrigerator_stores_ingredient)
-            return HttpResponse(refrigerator_stores_ingredient)
 
 
 ### Dummy ###
