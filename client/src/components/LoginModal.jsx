@@ -34,7 +34,7 @@ const LoginModal = ({ setIsLoginOpen }) => {
       password,
     };
 
-    const loginPostURL = `${process.env.REACT_APP_SERVER}/api/user/login`;
+      const loginPostURL = `${process.env.REACT_APP_SERVER}/api/user/login/`;
     axios
       ?.post(loginPostURL, body, {
         headers: {

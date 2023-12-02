@@ -22,7 +22,6 @@ const RecipeSearcher = () => {
     if (method || category) {
       const recommendUrl = `${process.env.REACT_APP_SERVER}/`;
       axios?.get(recommendUrl)?.then((res) => {
-        res.parse;
         setRecipes(res.data);
       });
     } else {
