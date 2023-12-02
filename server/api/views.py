@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.db import connection
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 import json
+import pymysql.cursors
 from django.views.decorators.csrf import csrf_exempt
 from .dummy import dummy_user_add, dummy_cuisine_add, dummy_recipe_add, dummy_ingredient_add, dummy_review_add, dummy_recipe_needs_ingredient_add, dummy_refrigerator_add, dummy_refrigerator_stores_ingredient_add
 
@@ -9,6 +10,10 @@ from .dummy import dummy_user_add, dummy_cuisine_add, dummy_recipe_add, dummy_in
 
 def index(request):
     return HttpResponse("Hello, world. You're at the index.")
+
+def dictfetchall(cursor):
+    columns = [col[0] for col in cursor.description]
+    return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
 ### User ###
 def user(request):    
@@ -18,33 +23,25 @@ def user(request):
         if user_id is None and email is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user")
-                rows = cursor.fetchall()
-                columns = [col[0] for col in cursor.description]
-                users = [dict(zip(columns, row)) for row in rows]
+                users = dictfetchall(cursor)
                 return JsonResponse(users, safe=False)
             
         elif user_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user WHERE email = %s", [email])
-                rows = cursor.fetchall()
-                columns = [col[0] for col in cursor.description]
-                users = [dict(zip(columns, row)) for row in rows]
+                users = dictfetchall(cursor)
                 return JsonResponse(users, safe=False)
             
         elif email is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user WHERE user_id = %s", [user_id])
-                rows = cursor.fetchall()
-                columns = [col[0] for col in cursor.description]
-                users = [dict(zip(columns, row)) for row in rows]
+                users = dictfetchall(cursor)
                 return JsonResponse(users, safe=False)
             
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user WHERE user_id = %s AND email = %s", [user_id, email])
-                rows = cursor.fetchall()
-                columns = [col[0] for col in cursor.description]
-                users = [dict(zip(columns, row)) for row in rows]
+                users = dictfetchall(cursor)
                 return JsonResponse(users, safe=False)
     
     elif request.method == "POST":
@@ -57,9 +54,7 @@ def user(request):
             
             with connection.cursor() as cursor:
                 cursor.execute("INSERT INTO api_user VALUES (%s, %s, %s, %s)", [user_id, first_name, last_name, age])
-                rows = cursor.fetchall()
-                columns = [col[0] for col in cursor.description]
-                users = [dict(zip(columns, row)) for row in rows]
+                users = dictfetchall(cursor)
                 return JsonResponse(users, safe=False)
         except Exception as e:
             return HttpResponse(e)
@@ -99,15 +94,8 @@ def user_login(request):
             
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user WHERE email = %s AND password = %s", [email, password])
-                rows = cursor.fetchall()
-                columns = [col[0] for col in cursor.description]
-                users = [dict(zip(columns, row)) for row in rows]
-                user = users[0] if len(users) > 0 else None
-                
-                if user:
-                    return JsonResponse(user, safe=False)
-                else:
-                    return HttpResponseForbidden("Invalid email or password")
+                user = dictfetchall(cursor)
+                return JsonResponse(user, safe=False)
         except Exception as e:
             return HttpResponse(e)
         
@@ -119,15 +107,13 @@ def cuisine(request):
         if cuisine_name is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_cuisine")
-                cuisines = cursor.fetchall()
-                cuisines = json.dumps(cuisines)
-                return HttpResponse(cuisines)
+                cuisines = dictfetchall(cursor)
+                return JsonResponse(cuisines, safe=False)
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_cuisine WHERE cuisine_name = %s", [cuisine_name])
-                cuisine = cursor.fetchall()
-                cuisine = json.dumps(cuisine)
-                return HttpResponse(cuisine)
+                cuisines = dictfetchall(cursor)
+                return JsonResponse(cuisines, safe=False)
     
     elif request.method == "POST":
         try:
@@ -173,15 +159,13 @@ def recipe(request):
         if recipe_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe")
-                recipes = cursor.fetchall()
-                recipes = json.dumps(recipes)
-                return HttpResponse(recipes)
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe WHERE recipe_id = %s", [recipe_id])
-                recipe = cursor.fetchall()
-                recipe = json.dumps(recipe)
-                return HttpResponse(recipe)
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
     
     elif request.method == "POST":
         try:
@@ -232,9 +216,8 @@ def recipe_search(request):
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe WHERE description LIKE %s", ["%" + keyword + "%"])
-                recipes = cursor.fetchall()
-                recipes = json.dumps(recipes)
-                return HttpResponse(recipes)
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
             
 def recipe_search_by_category(request):
     if request.method == "GET":
@@ -244,9 +227,8 @@ def recipe_search_by_category(request):
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe WHERE cuisine_name IN (SELECT cuisine_name FROM api_cuisine WHERE category = %s)", [category])
-                recipes = cursor.fetchall()
-                recipes = json.dumps(recipes)
-                return HttpResponse(recipes)
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
 
 def recipe_search_by_method(request):
     if request.method == "GET":
@@ -256,9 +238,8 @@ def recipe_search_by_method(request):
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe WHERE cuisine_name IN (SELECT cuisine_name FROM api_cuisine WHERE method = %s)", [method])
-                recipes = cursor.fetchall()
-                recipes = json.dumps(recipes)
-                return HttpResponse(recipes)
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
 
 
 ### Ingredient ###
@@ -268,15 +249,13 @@ def ingredient(request):
         if ingredient_name is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_ingredient")
-                ingredients = cursor.fetchall()
-                ingredients = json.dumps(ingredients)
-                return HttpResponse(ingredients)
+                ingredients = dictfetchall(cursor)
+                return JsonResponse(ingredients, safe=False)
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_ingredient WHERE ingredient_name = %s", [ingredient_name])
-                ingredient = cursor.fetchall()
-                ingredient = json.dumps(ingredient)
-                return HttpResponse(ingredient)
+                ingredients = dictfetchall(cursor)
+                return JsonResponse(ingredients, safe=False)
     
     elif request.method == "POST":
         try:
@@ -323,15 +302,13 @@ def review(request):
         if review_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_review")
-                reviews = cursor.fetchall()
-                reviews = json.dumps(reviews)
-                return HttpResponse(reviews)
+                reviews = dictfetchall(cursor)
+                return JsonResponse(reviews, safe=False)
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_review WHERE review_id = %s", [review_id])
-                review = cursor.fetchall()
-                review = json.dumps(review)
-                return HttpResponse(review)
+                reviews = dictfetchall(cursor)
+                return JsonResponse(reviews, safe=False)
     
     elif request.method == "POST":
         try:
@@ -382,27 +359,23 @@ def recipe_needs_ingredient(request):
         if recipe_id is None and ingredient_name is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe_needs_ingredient")
-                recipe_needs_ingredients = cursor.fetchall()
-                recipe_needs_ingredients = json.dumps(recipe_needs_ingredients)
-                return HttpResponse(recipe_needs_ingredients)
+                recipe_needs_ingredients = dictfetchall(cursor)
+                return JsonResponse(recipe_needs_ingredients, safe=False)
         elif recipe_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe_needs_ingredient WHERE ingredient_name = %s", [ingredient_name])
-                recipe_needs_ingredients = cursor.fetchall()
-                recipe_needs_ingredients = json.dumps(recipe_needs_ingredients)
-                return HttpResponse(recipe_needs_ingredients)
+                recipe_needs_ingredients = dictfetchall(cursor)
+                return JsonResponse(recipe_needs_ingredients, safe=False)
         elif ingredient_name is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe_needs_ingredient WHERE recipe_id = %s", [recipe_id])
-                recipe_needs_ingredients = cursor.fetchall()
-                recipe_needs_ingredients = json.dumps(recipe_needs_ingredients)
-                return HttpResponse(recipe_needs_ingredients)
+                recipe_needs_ingredients = dictfetchall(cursor)
+                return JsonResponse(recipe_needs_ingredients, safe=False)
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe_needs_ingredient WHERE recipe_id = %s AND ingredient_name = %s", [recipe_id, ingredient_name])
-                recipe_needs_ingredient = cursor.fetchall()
-                recipe_needs_ingredient = json.dumps(recipe_needs_ingredient)
-                return HttpResponse(recipe_needs_ingredient)
+                recipe_needs_ingredients = dictfetchall(cursor)
+                return JsonResponse(recipe_needs_ingredients, safe=False)
     
     elif request.method == "POST":
         try:
@@ -450,27 +423,23 @@ def refrigerator(request):
         if refrigerator_id is None and user_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_refrigerator")
-                refrigerators = cursor.fetchall()
-                refrigerators = json.dumps(refrigerators)
-                return HttpResponse(refrigerators)
+                refrigerators = dictfetchall(cursor)
+                return JsonResponse(refrigerators, safe=False)
         elif refrigerator_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_refrigerator WHERE user_id = %s", [user_id])
-                refrigerators = cursor.fetchall()
-                refrigerators = json.dumps(refrigerators)
-                return HttpResponse(refrigerators)
+                refrigerators = dictfetchall(cursor)
+                return JsonResponse(refrigerators, safe=False)
         elif user_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_refrigerator WHERE refrigerator_id = %s", [refrigerator_id])
-                refrigerator = cursor.fetchall()
-                refrigerator = json.dumps(refrigerator)
-                return HttpResponse(refrigerator)
+                refrigerators = dictfetchall(cursor)
+                return JsonResponse(refrigerators, safe=False)
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_refrigerator WHERE refrigerator_id = %s AND user_id = %s", [refrigerator_id, user_id])
-                refrigerator = cursor.fetchall()
-                refrigerator = json.dumps(refrigerator)
-                return HttpResponse(refrigerator)
+                refrigerators = dictfetchall(cursor)
+                return JsonResponse(refrigerators, safe=False)
     
     elif request.method == "POST":
         try:
@@ -517,27 +486,23 @@ def refrigerator_stores_ingredient(request):
         if refrigerator is None and ingredient_name is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient")
-                refrigerator_stores_ingredients = cursor.fetchall()
-                refrigerator_stores_ingredients = json.dumps(refrigerator_stores_ingredients)
-                return HttpResponse(refrigerator_stores_ingredients)
+                refrigerator_stores_ingredients = dictfetchall(cursor)
+                return JsonResponse(refrigerator_stores_ingredients, safe=False)
         elif refrigerator is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE ingredient_name = %s", [ingredient_name])
-                refrigerator_stores_ingredients = cursor.fetchall()
-                refrigerator_stores_ingredients = json.dumps(refrigerator_stores_ingredients)
-                return HttpResponse(refrigerator_stores_ingredients)
+                refrigerator_stores_ingredients = dictfetchall(cursor)
+                return JsonResponse(refrigerator_stores_ingredients, safe=False)
         elif ingredient_name is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator = %s", [refrigerator])
-                refrigerator_stores_ingredients = cursor.fetchall()
-                refrigerator_stores_ingredients = json.dumps(refrigerator_stores_ingredients)
-                return HttpResponse(refrigerator_stores_ingredients)
+                refrigerator_stores_ingredients = dictfetchall(cursor)
+                return JsonResponse(refrigerator_stores_ingredients, safe=False)
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator = %s AND ingredient_name = %s", [refrigerator, ingredient_name])
-                refrigerator_stores_ingredient = cursor.fetchall()
-                refrigerator_stores_ingredient = json.dumps(refrigerator_stores_ingredient)
-                return HttpResponse(refrigerator_stores_ingredient)
+                refrigerator_stores_ingredients = dictfetchall(cursor)
+                return JsonResponse(refrigerator_stores_ingredients, safe=False)
     
     elif request.method == "POST":
         try:
