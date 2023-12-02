@@ -3,8 +3,6 @@ import RecipeList from "./RecipeList";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-// dummy
-import { dummyRecipe } from "../../constants/Constant";
 
 const RecipeSearcher = () => {
   const location = useLocation();
@@ -13,13 +11,9 @@ const RecipeSearcher = () => {
 
   const [recipes, setRecipes] = useState([]);
 
-  // // set dummy recipe
-  // useEffect(() => {
-  //   setRecipes(dummyRecipe);
-  // }, []);
-
   useEffect(() => {
     if (method || category) {
+      // url 수정 필요
       const recommendUrl = `${process.env.REACT_APP_SERVER}/`;
       axios?.get(recommendUrl)?.then((res) => {
         setRecipes(res.data);
@@ -33,7 +27,6 @@ const RecipeSearcher = () => {
           },
         })
         ?.then((res) => {
-          console.log(res.data);
           setRecipes(res.data);
         });
     }
