@@ -3,6 +3,8 @@ import bg from "../../img/fridge_bg.png";
 import { Link } from "react-router-dom";
 
 const RecipePreview = ({ recipe }) => {
+  const recipeId = recipe.recipe_id;
+  // 레시피 id에 따른 썸네일 처리 필요
   const recipeThumbnail = recipe.thumbnail_url;
   const recipeDescription = recipe.description;
   const cuisineName = recipe.cuisine_name;
@@ -11,7 +13,7 @@ const RecipePreview = ({ recipe }) => {
     <>
       <div className="w-[296px] h-[416px] px-4 pt-4">
         <Link
-          to={`../recipe/${recipe.recipe_id}`}
+          to={`../recipe/${recipeId}`}
           state={{
             recipe,
           }}
@@ -25,7 +27,7 @@ const RecipePreview = ({ recipe }) => {
           </div>
         </Link>
         <div className="pt-4 pl-2">
-          <div className="description text-xl text-black">
+          <div className="description text-xl text-black whitespace-nowrap overflow-hidden text-ellipsis">
             {recipeDescription}
           </div>
           <div className="cuisineName text-l text-black">{cuisineName}</div>
