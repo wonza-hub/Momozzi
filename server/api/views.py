@@ -299,14 +299,25 @@ def ingredient(request):
 def review(request):
     if request.method == "GET":
         review_id = request.GET.get("review_id")
-        if review_id is None:
+        recipe_id = request.GET.get("recipe_id")
+        if review_id is None and recipe_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_review")
                 reviews = dictfetchall(cursor)
                 return JsonResponse(reviews, safe=False)
-        else:
+        elif review_id is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_review WHERE recipe_id = %s", [recipe_id])
+                reviews = dictfetchall(cursor)
+                return JsonResponse(reviews, safe=False)
+        elif recipe_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_review WHERE review_id = %s", [review_id])
+                reviews = dictfetchall(cursor)
+                return JsonResponse(reviews, safe=False)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_review WHERE review_id = %s AND recipe_id = %s", [review_id, recipe_id])
                 reviews = dictfetchall(cursor)
                 return JsonResponse(reviews, safe=False)
     
