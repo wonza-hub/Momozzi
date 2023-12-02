@@ -8,10 +8,11 @@ import ReviewRegistration from "./ReviewRegistration";
 import { FaPencilAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlineTimer } from "react-icons/md";
+import axios from "axios";
 
 // dummy
 import bg from "../../img/fridge_bg.png";
-import { dummyReviews } from "../../constants/Constant";
+// import { dummyReviews } from "../../constants/Constant";
 
 const Recipe = () => {
   const { reviewId } = useParams();
@@ -44,13 +45,14 @@ const Recipe = () => {
   const handleReviewClose = () => setIsReviewOpen(false);
 
   // 레시피 리뷰 목록 조회
-  // const reviewURL = `${process.env.REACT_APP_SERVER}/recipe/${reviewId}/review`;
+  const reviewURL = `${process.env.REACT_APP_SERVER}/recipe/${reviewId}/review`;
   useEffect(() => {
-    setReviews(dummyReviews);
+    // // set dummy
+    // setReviews(dummyReviews);
 
-    // axios?.get(reviewURL)?.then((res) => {
-    //   setReviews(res.data);
-    // });
+    axios?.get(reviewURL)?.then((res) => {
+      setReviews(res.data);
+    });
   }, []);
 
   return (

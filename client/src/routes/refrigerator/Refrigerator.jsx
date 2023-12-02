@@ -2,17 +2,20 @@ import Inventory from "./Inventory";
 import IngredientRegistration from "./IngredientRegistration";
 import RecommendFilter from "./RecommendFilter";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Refrigerator = () => {
   const [storedIngredients, setStoredIngredients] = useState([]);
+  const user = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   let openFridgeUrl = `${process.env.REACT_APP_SERVER}/userid?${userId}`;
-  //   axios?.get(openFridgeUrl)?.then((res) => {
-  //     setStoredIngredients(res.data);
-  //   });
-  // }, []);
+  useEffect(() => {
+    let openFridgeUrl = `${process.env.REACT_APP_SERVER}/api/refrigerator/?user_id=1`;
+    axios?.get(openFridgeUrl)?.then((res) => {
+      console.log(res);
+      setStoredIngredients(res.data);
+    });
+  }, []);
 
   return (
     <>
