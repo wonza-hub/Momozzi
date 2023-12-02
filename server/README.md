@@ -40,7 +40,7 @@
 - **PUT /api/ingredient/**: Update an ingredient (send `ingredient_name`, `type`, and `calories` in request body).
 
 ### Review
-- **GET /api/review/**: Retrieve all reviews or a specific review by appending `?review_id={review_id}` to the URL.
+- **GET /api/review/**: Retrieve all reviews or a specific review by appending `?review_id={review_id}&recipe_id={recipe_id}` to the URL.
 - **POST /api/review/**: Add a new review (send `review_id`, `content`, `user_id`, and `recipe_id` in request body).
 - **DELETE /api/review/**: Delete a review (send `review_id` in request body).
 - **PUT /api/review/**: Update a review (send `review_id`, `content`, `user_id`, and `recipe_id` in request body).
