@@ -18,27 +18,34 @@ def user(request):
         if user_id is None and email is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user")
-                users = cursor.fetchall()
-                users = json.dumps(users)
-                return HttpResponse(users)
+                rows = cursor.fetchall()
+                columns = [col[0] for col in cursor.description]
+                users = [dict(zip(columns, row)) for row in rows]
+                return JsonResponse(users, safe=False)
+            
         elif user_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user WHERE email = %s", [email])
-                user = cursor.fetchall()
-                user = json.dumps(user)
-                return HttpResponse(user)
+                rows = cursor.fetchall()
+                columns = [col[0] for col in cursor.description]
+                users = [dict(zip(columns, row)) for row in rows]
+                return JsonResponse(users, safe=False)
+            
         elif email is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user WHERE user_id = %s", [user_id])
-                user = cursor.fetchall()
-                user = json.dumps(user)
-                return HttpResponse(user)
+                rows = cursor.fetchall()
+                columns = [col[0] for col in cursor.description]
+                users = [dict(zip(columns, row)) for row in rows]
+                return JsonResponse(users, safe=False)
+            
         else:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user WHERE user_id = %s AND email = %s", [user_id, email])
-                user = cursor.fetchall()
-                user = json.dumps(user)
-                return HttpResponse(user)
+                rows = cursor.fetchall()
+                columns = [col[0] for col in cursor.description]
+                users = [dict(zip(columns, row)) for row in rows]
+                return JsonResponse(users, safe=False)
     
     elif request.method == "POST":
         try:
@@ -50,7 +57,10 @@ def user(request):
             
             with connection.cursor() as cursor:
                 cursor.execute("INSERT INTO api_user VALUES (%s, %s, %s, %s)", [user_id, first_name, last_name, age])
-                return HttpResponse(data)
+                rows = cursor.fetchall()
+                columns = [col[0] for col in cursor.description]
+                users = [dict(zip(columns, row)) for row in rows]
+                return JsonResponse(users, safe=False)
         except Exception as e:
             return HttpResponse(e)
     
@@ -89,11 +99,13 @@ def user_login(request):
             
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user WHERE email = %s AND password = %s", [email, password])
-                user = cursor.fetchone()
+                rows = cursor.fetchall()
+                columns = [col[0] for col in cursor.description]
+                users = [dict(zip(columns, row)) for row in rows]
+                user = users[0] if len(users) > 0 else None
                 
                 if user:
-                    user = json.dumps(user)
-                    return HttpResponse(user)
+                    return JsonResponse(user, safe=False)
                 else:
                     return HttpResponseForbidden("Invalid email or password")
         except Exception as e:

@@ -41,8 +41,9 @@ const LoginModal = ({ setIsLoginOpen }) => {
           "Content-Type": "application/json",
         },
       })
-      ?.then((res) => {
-        console.log(body);
+        ?.then((res) => {
+            const json_res = JSON.stringify(res.data);
+            console.log(json_res);
         if (res.status === 200) {
           userDispatch(loginUser(res.data));
           setIsLoginOpen(false);
