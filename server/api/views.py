@@ -223,6 +223,30 @@ def recipe_search(request):
                 recipes = cursor.fetchall()
                 recipes = json.dumps(recipes)
                 return HttpResponse(recipes)
+            
+def recipe_search_by_category(request):
+    if request.method == "GET":
+        category = request.GET.get("category")
+        if category is None:
+            return HttpResponse("No category")
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe WHERE cuisine_name IN (SELECT cuisine_name FROM api_cuisine WHERE category = %s)", [category])
+                recipes = cursor.fetchall()
+                recipes = json.dumps(recipes)
+                return HttpResponse(recipes)
+
+def recipe_search_by_method(request):
+    if request.method == "GET":
+        method = request.GET.get("method")
+        if method is None:
+            return HttpResponse("No method")
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe WHERE cuisine_name IN (SELECT cuisine_name FROM api_cuisine WHERE method = %s)", [method])
+                recipes = cursor.fetchall()
+                recipes = json.dumps(recipes)
+                return HttpResponse(recipes)
 
 
 ### Ingredient ###

@@ -14,6 +14,8 @@ urlpatterns = [
     # Recipe endpoints
     path("recipe/", views.recipe, name="recipe"),
     path("recipe/search/", views.recipe_search, name="recipe_search"),
+    path("recipe/category/", views.recipe_search_by_category, name="recipe_category"),
+    path("recipe/method/", views.recipe_search_by_method, name="recipe_method"),
     
     # Ingredient endpoints
     path("ingredient/", views.ingredient, name="ingredient"),

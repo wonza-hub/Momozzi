@@ -14,7 +14,7 @@
 ### User
 - **GET /api/user/**: Retrieve all users or a specific user by appending `?user_id={user_id}` to the URL.
 - **POST /api/user/**: Add a new user (send `user_id`, `first_name`, `last_name`, and `age` in request body).
-- **POST /api/user/login?email={email}&password={password}**: Login a user.
+- **POST /api/user/login/**: Login a user (send `email` and `password` in request body).
 - **DELETE /api/user/**: Delete a user (send `user_id` in request body).
 - **PUT /api/user/**: Update a user (send `user_id`, `first_name`, `last_name`, and `age` in request body).
 
@@ -26,11 +26,10 @@
 
 ### Recipe
 - **GET /api/recipe/**: Retrieve all recipes or a specific recipe by appending `?recipe_id={recipe_id}` to the URL.
-- **GET /api/recipe/search?keyword={keyword}**: Search for recipes by keyword.
+- **GET /api/recipe/search/**: Search for recipes by keyword (append `?keyword={keyword}` to the URL).
 - **POST /api/recipe/**: Add a new recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).
 - **DELETE /api/recipe/**: Delete a recipe (send `recipe_id` in request body).
 - **PUT /api/recipe/**: Update a recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).
-
 
 ### Ingredient
 - **GET /api/ingredient/**: Retrieve all ingredients or a specific ingredient by appending `?ingredient_name={ingredient_name}` to the URL.
