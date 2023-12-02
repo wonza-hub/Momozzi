@@ -34,23 +34,20 @@ const LoginModal = ({ setIsLoginOpen }) => {
       password,
     };
 
-      const loginPostURL = `${process.env.REACT_APP_SERVER}/api/user/login/`;
+    const loginPostURL = `${process.env.REACT_APP_SERVER}/api/user/login/`;
     axios
       ?.post(loginPostURL, body, {
         headers: {
           "Content-Type": "application/json",
         },
       })
-        ?.then((res) => {
-            const json_res = JSON.stringify(res.data);
-            console.log(json_res);
+      ?.then((res) => {
         if (res.status === 200) {
           userDispatch(loginUser(res.data));
           setIsLoginOpen(false);
         }
       })
       ?.catch((e) => {
-        console.log(e);
         alert("로그인 실패");
         setIsLoading(false);
       });
