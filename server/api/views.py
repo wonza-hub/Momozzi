@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.db import connection
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 import json
+from django.views.decorators.csrf import csrf_exempt
 from .dummy import dummy_user_add, dummy_cuisine_add, dummy_recipe_add, dummy_ingredient_add, dummy_review_add, dummy_recipe_needs_ingredient_add, dummy_refrigerator_add, dummy_refrigerator_stores_ingredient_add
 
 # Create your views here.
@@ -13,15 +14,28 @@ def index(request):
 def user(request):    
     if request.method == "GET":
         user_id = request.GET.get("user_id")
-        if user_id is None:
+        email = request.GET.get("email")
+        if user_id is None and email is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user")
                 users = cursor.fetchall()
                 users = json.dumps(users)
                 return HttpResponse(users)
-        else:
+        elif user_id is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_user WHERE email = %s", [email])
+                user = cursor.fetchall()
+                user = json.dumps(user)
+                return HttpResponse(user)
+        elif email is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_user WHERE user_id = %s", [user_id])
+                user = cursor.fetchall()
+                user = json.dumps(user)
+                return HttpResponse(user)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_user WHERE user_id = %s AND email = %s", [user_id, email])
                 user = cursor.fetchall()
                 user = json.dumps(user)
                 return HttpResponse(user)
@@ -62,6 +76,26 @@ def user(request):
             with connection.cursor() as cursor:
                 cursor.execute("UPDATE api_user SET first_name = %s, last_name = %s, age = %s WHERE user_id = %s", [first_name, last_name, age, user_id])
                 return HttpResponse("User updated")
+        except Exception as e:
+            return HttpResponse(e)
+
+@csrf_exempt
+def user_login(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            email = data["email"]
+            password = data["password"]
+            
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_user WHERE email = %s AND password = %s", [email, password])
+                user = cursor.fetchone()
+                
+                if user:
+                    user = json.dumps(user)
+                    return HttpResponse(user)
+                else:
+                    return HttpResponseForbidden("Invalid email or password")
         except Exception as e:
             return HttpResponse(e)
         
@@ -376,28 +410,15 @@ def recipe_needs_ingredient(request):
 def refrigerator(request):
     if request.method == "GET":
         user_id = request.GET.get("user_id")
-        created_at = request.GET.get("created_at")
-        if user_id is None and created_at is None:
+        if user_id is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_refrigerator")
                 refrigerators = cursor.fetchall()
                 refrigerators = json.dumps(refrigerators)
                 return HttpResponse(refrigerators)
-        elif user_id is None:
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_refrigerator WHERE created_at = %s", [created_at])
-                refrigerators = cursor.fetchall()
-                refrigerators = json.dumps(refrigerators)
-                return HttpResponse(refrigerators)
-        elif created_at is None:
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_refrigerator WHERE user_id = %s", [user_id])
-                refrigerators = cursor.fetchall()
-                refrigerators = json.dumps(refrigerators)
-                return HttpResponse(refrigerators)
         else:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_refrigerator WHERE user_id = %s AND created_at = %s", [user_id, created_at])
+                cursor.execute("SELECT * FROM api_refrigerator WHERE user_id = %s", [user_id])
                 refrigerator = cursor.fetchall()
                 refrigerator = json.dumps(refrigerator)
                 return HttpResponse(refrigerator)

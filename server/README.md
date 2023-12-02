@@ -5,8 +5,8 @@
 1. **Install Dependencies**: Run `pip install -r requirements.txt` to install required packages.
 2. **Environment Variables**: Rename `.env.example` to `.env` and update the values as needed.
 3. **Database Setup**: Create a schema named "momozzi" in MySQL.
-4. **Migrations**: Run `python manage.py makemigrations` to create migration files.
-5. **Apply Migrations**: Run `python manage.py migrate` to apply migrations to the database.
+4. **Migrations**: Run `python manage.py makemigrations` and `python manage.py makemigrations api` to create migration files.
+5. **Apply Migrations**: Run `python manage.py migrate` and `python manage.py migrate api` to apply migrations to the database.
 6. **Start Server**: Run `python manage.py runserver {port number}` to start the Django server.
 
 ## Endpoints
@@ -14,6 +14,7 @@
 ### User
 - **GET /api/user/**: Retrieve all users or a specific user by appending `?user_id={user_id}` to the URL.
 - **POST /api/user/**: Add a new user (send `user_id`, `first_name`, `last_name`, and `age` in request body).
+- **POST /api/user/login?email={email}&password={password}**: Login a user.
 - **DELETE /api/user/**: Delete a user (send `user_id` in request body).
 - **PUT /api/user/**: Update a user (send `user_id`, `first_name`, `last_name`, and `age` in request body).
 
@@ -50,7 +51,7 @@
 - **PUT /api/recipe_needs_ingredient/**: Update a recipe-ingredient relationship (send `recipe_id` and `ingredient_name` in request body).
 
 ### Refrigerator
-- **GET /api/refrigerator/**: Retrieve all refrigerators or a specific refrigerator by appending `?user_id={user_id}&created_at={created_at}` to the URL.
+- **GET /api/refrigerator/**: Retrieve all refrigerators or a specific refrigerator by appending `?user_id={user_id}` to the URL.
 - **POST /api/refrigerator/**: Add a new refrigerator (send `user_id`, `created_at`, and `capacity` in request body).
 - **DELETE /api/refrigerator/**: Delete a refrigerator (send `user_id` and `created_at` in request body).
 - **PUT /api/refrigerator/**: Update a refrigerator (send `user_id`, `created_at`, and `capacity` in request body).
