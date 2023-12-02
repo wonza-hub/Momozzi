@@ -2,6 +2,7 @@
 
 # environments
 .env
+.env.example
 
 # Ignore package-lock.json file
 package-lock.json
