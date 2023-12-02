@@ -2,17 +2,18 @@ from django.db import connection
 
 def dummy_user_add():
     user_data = [
-        {"user_id": 1, "first_name": "John", "last_name": "A", "age": 30},
-        {"user_id": 2, "first_name": "Jane", "last_name": "B", "age": 28},
-        {"user_id": 3, "first_name": "Jack", "last_name": "C", "age": 26},
-        {"user_id": 4, "first_name": "Jill", "last_name": "D", "age": 24},
+        {"user_id": 1, "first_name": "John", "last_name": "Smith", "email": "John123@a.com", "password": "John123", "age": 20},
+        {"user_id": 2, "first_name": "Jane", "last_name": "Doe", "email": "Jane123@a.com", "password": "Jane123", "age": 21},
+        {"user_id": 3, "first_name": "Bob", "last_name": "Smith", "email": "Bob123@a.com", "password": "Bob123", "age": 22},
+        {"user_id": 4, "first_name": "Alice", "last_name": "Doe", "email": "Alice@a.com", "password": "Alice123", "age": 23},
     ]
-    sql = "INSERT INTO api_user (user_id, first_name, last_name, age) VALUES (%s, %s, %s, %s)"
+    sql = "INSERT INTO api_user (user_id, first_name, last_name, email, password, age) VALUES (%s, %s, %s, %s, %s, %s)"
     with connection.cursor() as cursor:
         for user in user_data:
-            cursor.execute(sql, [user['user_id'], user['first_name'], user['last_name'], user['age']])
+            cursor.execute(sql, [user['user_id'], user['first_name'], user['last_name'], user['email'], user['password'], user['age']])
     return
 
+    
 def dummy_cuisine_add():
     cuisine_data = [
         {"cuisine_name": "Italian", "method": "Baking", "category": "Main Course"},

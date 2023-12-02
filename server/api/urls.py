@@ -6,6 +6,7 @@ urlpatterns = [
     
     # User endpoints
     path("user/", views.user, name="user"),
+    path("user/login/", views.user_login, name="user_login"),
     
     # Cuisine endpoints
     path("cuisine/", views.cuisine, name="cuisine"),
