@@ -49,10 +49,10 @@ const SearchBar = ({ setRecipes }) => {
     setSearchContent(searchInputValue);
   };
 
-  // 검색창 입력시 데이터 요청
+  // 검색창 부분 문자열 입력시 api 요청
   const handleSearchBoxInputComplete = () => {
     if (searchContent) {
-      const filterUrl = `${process.env.REACT_APP_SERVER}/`;
+      const filterUrl = `${process.env.REACT_APP_SERVER}/api/recipe/search/?keyword=${searchContent}`;
       const queryParams = {
         searchContent: searchContent,
       };
