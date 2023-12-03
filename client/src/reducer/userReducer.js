@@ -10,8 +10,8 @@ export const userReducer = createSlice({
   },
   reducers: {
     loginUser: (state, action) => {
-      state.id = action.payload.user_id;
-      state.name = action.payload.last_name;
+      state.id = action.payload[0].user_id;
+      state.name = action.payload[0].last_name;
       state.isLogin = true;
     },
 
