@@ -12,30 +12,29 @@ import axios from "axios";
 
 // dummy
 import bg from "../../img/fridge_bg.png";
-// import { dummyReviews } from "../../constants/Constant";
 
 const Recipe = () => {
-  const { reviewId } = useParams();
+  const { postId } = useParams();
   const location = useLocation();
+
   const {
     cook_time: cookTime,
+    cuisine_name: cuisineName,
     description,
-    process,
-    thumbnailURL,
+    process: step,
   } = location.state.recipe;
-  const steps = process.split(".");
+  const steps = step.split(".");
 
   const [ingredients, setIngredients] = useState([]);
-
   const [reviews, setReviews] = useState([]);
 
   // 레시피 단건 조회
-  //   const recipeURL = `${process.env.REACT_APP_SERVER}/recipe/${reviewId}`;
-  //   useEffect(() => {
-  //     axios?.get(recipeURL)?.then((res) => {
-  //       setIngredients(res.data.response);
-  //     });
-  //   }, [recipeURL]);
+  useEffect(() => {
+    const recipeURL = `${process.env.REACT_APP_SERVER}/api/recipe_needs_ingredient/?recipe_id=${postId}`;
+    axios?.get(recipeURL)?.then((res) => {
+      setIngredients(res.data);
+    });
+  }, [postId]);
 
   // 리뷰창 토글
   const [isReviewOpen, setIsReviewOpen] = useState(false);
@@ -45,15 +44,12 @@ const Recipe = () => {
   const handleReviewClose = () => setIsReviewOpen(false);
 
   // 레시피 리뷰 목록 조회
-  const reviewURL = `${process.env.REACT_APP_SERVER}/recipe/${reviewId}/review`;
   useEffect(() => {
-    // // set dummy
-    // setReviews(dummyReviews);
-
+    const reviewURL = `${process.env.REACT_APP_SERVER}/api/review/?recipe_id=${postId}`;
     axios?.get(reviewURL)?.then((res) => {
       setReviews(res.data);
     });
-  }, []);
+  }, [postId]);
 
   return (
     <>
