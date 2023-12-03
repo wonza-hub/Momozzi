@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { loginUser } from "../reducer/userReducer";
 
-const LoginModal = ({ setIsLoginOpen }) => {
+const LoginModal = ({ handleLoginOpen }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +44,7 @@ const LoginModal = ({ setIsLoginOpen }) => {
       ?.then((res) => {
         if (res.status === 200) {
           userDispatch(loginUser(res.data));
-          setIsLoginOpen(false);
+          handleLoginOpen();
         }
       })
       ?.catch((e) => {
@@ -56,50 +56,51 @@ const LoginModal = ({ setIsLoginOpen }) => {
 
   return (
     <>
-      <div className="absolute w-screen h-screen left-0 top-0 bg-black/80 z-20">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[485px] h-[700px] px-4 py-8 bg-white rounded-3xl brightness-95 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
-          <div className="w-full h-full flex flex-col items-center">
-            <header>
-              <h3 className="my-10 text-2xl text-primary tracking-wider">
-                MOMOZZI
-              </h3>
-            </header>
-            <div className="w-3/4">
-              <form className="w-full" onSubmit={handleLoginSubmit}>
-                <input
-                  onChange={handleEmailInputChange}
-                  className="w-full h-12 mb-5 px-8  bg-backgroundGray/50 rounded-lg focus:outline-primary"
-                  type="text"
-                  value={email}
-                  placeholder={"Email"}
-                  ref={emailInputRef}
-                />
-                <input
-                  onChange={handlePasswordInputChange}
-                  className="w-full h-12 mb-5 px-8  bg-backgroundGray/50 rounded-lg focus:outline-primary"
-                  type="password"
-                  value={password}
-                  placeholder={"Password"}
-                  ref={passwordInputRef}
-                />
-                <button
-                  className="w-full h-12 my-5 bg-primary/90 rounded-md text-white text-lg tracking-wider focus:outline-primary"
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  LOGIN
-                </button>
-              </form>
-              <div className="w-full text-center text-black/80">
-                login with SNS account
-              </div>
-              <button className="w-full h-10 my-4 bg-kakao text-black rounded-xl">
-                kakao login
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[485px] h-[700px] px-4 py-8 bg-white rounded-3xl brightness-95 shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="w-full h-full flex flex-col items-center">
+          <header>
+            <h3 className="my-10 text-2xl text-primary tracking-wider">
+              MOMOZZI
+            </h3>
+          </header>
+          <div className="w-3/4">
+            <form className="w-full" onSubmit={handleLoginSubmit}>
+              <input
+                onChange={handleEmailInputChange}
+                className="w-full h-12 mb-5 px-8  bg-backgroundGray/50 rounded-lg focus:outline-primary"
+                type="text"
+                value={email}
+                placeholder={"Email"}
+                ref={emailInputRef}
+              />
+              <input
+                onChange={handlePasswordInputChange}
+                className="w-full h-12 mb-5 px-8  bg-backgroundGray/50 rounded-lg focus:outline-primary"
+                type="password"
+                value={password}
+                placeholder={"Password"}
+                ref={passwordInputRef}
+              />
+              <button
+                className="w-full h-12 my-5 bg-primary/90 rounded-md text-white text-lg tracking-wider focus:outline-primary"
+                type="submit"
+                disabled={isLoading}
+              >
+                LOGIN
               </button>
-              <button className=" w-full mt-24 h-14 tracking-wider border-2 border-black/80 rounded-3xl">
-                SIGN UP
-              </button>
+            </form>
+            <div className="w-full text-center text-black/80">
+              login with SNS account
             </div>
+            <button className="w-full h-10 my-4 bg-kakao text-black rounded-xl">
+              kakao login
+            </button>
+            <button className=" w-full mt-24 h-14 tracking-wider border-2 border-black/80 rounded-3xl">
+              SIGN UP
+            </button>
           </div>
         </div>
       </div>

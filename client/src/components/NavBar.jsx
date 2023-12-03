@@ -50,7 +50,14 @@ const NavBar = () => {
           </button>
         </div>
       </div>
-      {isLoginOpen ? <LoginModal setIsLoginOpen={setIsLoginOpen} /> : null}
+      {isLoginOpen ? (
+        <div
+          className="fixed t-0 l-0 w-full h-full bg-black/80 z-10"
+          onClick={handleLoginOpen}
+        >
+          <LoginModal handleLoginOpen={handleLoginOpen} />
+        </div>
+      ) : null}
       <Outlet />
     </>
   );
