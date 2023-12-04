@@ -51,22 +51,18 @@ const SearchBar = ({ setRecipes }) => {
 
   // 검색창 부분 문자열 입력시 api 요청
   const handleSearchBoxInputComplete = () => {
-    if (searchContent) {
-      const filterUrl = `${process.env.REACT_APP_SERVER}/api/recipe/search/?keyword=${searchContent}`;
-      const queryParams = {
-        searchContent: searchContent,
-      };
-      axios
-        ?.get(filterUrl, { params: queryParams })
-        ?.then((res) => {
-          setRecipes(res.data);
-        })
-        .catch((error) => {
-          console.error("음식 정보 불러오기 실패", error);
-        });
-    } else {
-      alert("검색어를 입력하세요");
-    }
+    const filterUrl = `${process.env.REACT_APP_SERVER}/api/recipe/search/?keyword=${searchContent}`;
+    const queryParams = {
+      searchContent: searchContent,
+    };
+    axios
+      ?.get(filterUrl, { params: queryParams })
+      ?.then((res) => {
+        setRecipes(res.data);
+      })
+      .catch((error) => {
+        console.error("음식 정보 불러오기 실패", error);
+      });
   };
 
   return (
