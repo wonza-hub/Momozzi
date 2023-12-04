@@ -15,7 +15,9 @@ def dictfetchall(cursor):
     columns = [col[0] for col in cursor.description]
     return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
+
 ### User ###
+@csrf_exempt
 def user(request):    
     if request.method == "GET":
         user_id = request.GET.get("user_id")
@@ -296,6 +298,7 @@ def ingredient(request):
 
 
 ### Review ###
+@csrf_exempt
 def review(request):
     if request.method == "GET":
         review_id = request.GET.get("review_id")
@@ -324,13 +327,12 @@ def review(request):
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            review_id = data["review_id"]
             content = data["content"]
             user_id = data["user_id"]
             recipe_id = data["recipe_id"]
             
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO api_review VALUES (%s, %s, %s, %s)", [review_id, content, user_id, recipe_id])
+                cursor.execute("INSERT INTO api_review (content, user_id, recipe_id) VALUES (%s, %s, %s)", [content, user_id, recipe_id])
                 return HttpResponse("Review added")
         except Exception as e:
             return HttpResponse(e)
