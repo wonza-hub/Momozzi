@@ -25,7 +25,10 @@ const SearchBar = ({ setRecipes }) => {
   // 검색 버튼 클릭시 데이터 요청
   const handleSearchClick = () => {
     if (method || category || ingredient) {
-      const filterUrl = `${process.env.REACT_APP_SERVER}/`;
+      console.log(method);
+      console.log(category);
+      console.log(ingredient);
+      const filterUrl = `${process.env.REACT_APP_SERVER}/api/recipe/filter/?method=${method}&category=${category}&ingredient=${ingredient}`;
       const queryParams = {
         method: method,
         category: category,
@@ -51,7 +54,7 @@ const SearchBar = ({ setRecipes }) => {
 
   // 검색창 부분 문자열 입력시 api 요청
   const handleSearchBoxInputComplete = () => {
-    const filterUrl = `${process.env.REACT_APP_SERVER}/api/recipe/search/?keyword=${searchContent}`;
+    const filterUrl = `${process.env.REACT_APP_SERVER}/api/recipe/keyword/?keyword=${searchContent}`;
     const queryParams = {
       searchContent: searchContent,
     };
