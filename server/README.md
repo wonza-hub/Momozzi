@@ -12,8 +12,8 @@
 ## Endpoints
 
 ### User
-- **GET /api/user/**: Retrieve all users or a specific user by appending `?user_id={user_id}` to the URL.
-- **POST /api/user/**: Add a new user (send `user_id`, `first_name`, `last_name`, and `age` in request body).
+- **GET /api/user/**: Retrieve all users or a specific user by appending `?user_id={user_id}` or `?email={email}` to the URL.
+- **POST /api/user/**: Add a new user (`first_name`, `last_name`, and `age` in request body).
 - **POST /api/user/login/**: Login a user (send `email` and `password` in request body).
 - **DELETE /api/user/**: Delete a user (send `user_id` in request body).
 - **PUT /api/user/**: Update a user (send `user_id`, `first_name`, `last_name`, and `age` in request body).
@@ -26,9 +26,8 @@
 
 ### Recipe
 - **GET /api/recipe/**: Retrieve all recipes or a specific recipe by appending `?recipe_id={recipe_id}` to the URL.
-- **GET /api/recipe/search/**: Search for recipes by keyword (append `?keyword={keyword}` to the URL).
-- **GET /api/recipe/category/**: Retrieve all recipes of a specific category by appending `?category={category}` to the URL.
-- **GET /api/recipe/method/**: Retrieve all recipes of a specific method by appending `?method={method}` to the URL.
+- **GET /api/recipe/keyword/**: Search for recipes by keyword (append `?keyword={keyword}` to the URL).
+- **GET /api/recipe/filter/**: Filter recipes by cuisine (append `?method={method}`, `category={category}`, and `ingredient={ingredient}` to the URL).
 - **POST /api/recipe/**: Add a new recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).
 - **DELETE /api/recipe/**: Delete a recipe (send `recipe_id` in request body).
 - **PUT /api/recipe/**: Update a recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).

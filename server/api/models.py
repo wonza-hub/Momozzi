@@ -1,7 +1,7 @@
 from django.db import models
 
 class User(models.Model):
-    user_id = models.IntegerField(primary_key=True)
+    user_id = models.BigAutoField(primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.CharField(max_length=30)
@@ -14,7 +14,7 @@ class Cuisine(models.Model):
     category = models.CharField(max_length=30)
 
 class Recipe(models.Model):
-    recipe_id = models.IntegerField(primary_key=True, auto_created=True)
+    recipe_id = models.BigAutoField(primary_key=True)
     cook_time = models.IntegerField()
     description = models.CharField(max_length=100)
     process = models.TextField()
@@ -26,7 +26,7 @@ class Ingredient(models.Model):
     calories = models.IntegerField()
 
 class Review(models.Model):
-    review_id = models.IntegerField(primary_key=True, auto_created=True)
+    review_id = models.BigAutoField(primary_key=True)
     content = models.TextField()
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
     recipe_id = models.ForeignKey(Recipe, on_delete=models.CASCADE, db_column='recipe_id')
@@ -41,7 +41,7 @@ class Recipe_Needs_Ingredient(models.Model):
         ]
 
 class Refrigerator(models.Model):
-    refrigerator_id = models.IntegerField(primary_key=True, auto_created=True)
+    refrigerator_id = models.BigAutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
     created_at = models.DateTimeField(auto_now_add=True)
     capacity = models.IntegerField()
