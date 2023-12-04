@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Description from "./Description";
 import Ingredients from "./Ingredients";
 import Steps from "./Steps";
@@ -15,21 +15,31 @@ import bg from "../../img/fridge_bg.png";
 
 const Recipe = () => {
   const { postId } = useParams();
-  const location = useLocation();
 
-  const {
-    cook_time: cookTime,
-    cuisine_name: cuisineName,
-    description,
-    process: step,
-  } = location.state.recipe;
-  const steps = step.split(".");
-
+  const [cookTime, setCookTime] = useState("");
+  const [cuisineName, setCuisineName] = useState("");
+  const [description, setDescription] = useState("");
+  const [steps, setSteps] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [reviews, setReviews] = useState([]);
 
-  // 레시피 단건 조회
   useEffect(() => {
+    // 레시피 단건 조회
+    const dataUrl = `${process.env.REACT_APP_SERVER}/api/recipe/?recipe_id=${postId}`;
+    axios
+      ?.get(dataUrl, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      ?.then((res) => {
+        setCookTime(res.data[0].cook_time);
+        setCuisineName(res.data[0].cuisine_name);
+        setDescription(res.data[0].description);
+        const processSteps = res.data[0].process.split(".");
+        setSteps(processSteps);
+      });
+    // 레시피 재료 조회
     const recipeURL = `${process.env.REACT_APP_SERVER}/api/recipe_needs_ingredient/?recipe_id=${postId}`;
     axios?.get(recipeURL)?.then((res) => {
       setIngredients(res.data);

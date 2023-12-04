@@ -12,16 +12,11 @@ const RecipePreview = ({ recipe }) => {
   return (
     <>
       <div className="w-[296px] h-[416px] px-4 pt-4">
-        <Link
-          to={`../recipe/${recipeId}`}
-          state={{
-            recipe,
-          }}
-        >
+        <Link to={`../recipe/${recipeId}`}>
           <div className="thumbnail h-[328px] rounded-2xl overflow-hidden shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] hover:-translate-y-1 duration-200 ease-in-out">
             <img
               className="w-full max-w-full h-full object-cover contrast-120 brightness-95"
-              src={bg}
+              src={`../../img/recipe/{recipe_id}.png`}
               alt={"recipeThumbnail"}
             />
           </div>

@@ -1,10 +1,13 @@
 import { useState, useRef } from "react";
-import { redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useSelector } from "react-redux";
 
 const ReviewRegistration = ({ setReviews }) => {
-  const { reviewPostId } = useParams();
+  const { postId } = useParams();
+
+  const user = useSelector((state) => state.user);
 
   const [isLoading, setIsLoading] = useState(false);
   const [newReview, setNewReview] = useState("");
@@ -16,15 +19,36 @@ const ReviewRegistration = ({ setReviews }) => {
   };
 
   const handleReviewSubmit = (event) => {
+    if (!user.id) {
+      alert("로그인 후 리뷰를 작성해주세요.");
+      event.preventDefault();
+      return;
+    }
     event.preventDefault();
     setIsLoading(true);
 
-    const reviewPostURL = `${process.env.REACT_APP_SERVER}/review/${reviewPostId}`;
+    let reviewBody = {
+      content: newReview,
+      user_id: user.id,
+      recipe_id: postId,
+    };
+
+    const reviewPostURL = `${process.env.REACT_APP_SERVER}/api/review/`;
     axios
-      ?.post(reviewPostURL, newReview)
+      ?.post(reviewPostURL, reviewBody, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       ?.then((res) => {
+        // 댓글 등록 성공시 리로딩
         if (res.status === 200) {
-          return redirect(`/recipe/${reviewPostId}`);
+          setIsLoading(false);
+          setNewReview("");
+          const reviewURL = `${process.env.REACT_APP_SERVER}/api/review/?recipe_id=${postId}`;
+          axios?.get(reviewURL)?.then((res) => {
+            setReviews(res.data);
+          });
         }
       })
       ?.catch(() => console.log("post fail"));
