@@ -13,9 +13,8 @@ urlpatterns = [
     
     # Recipe endpoints
     path("recipe/", views.recipe, name="recipe"),
-    path("recipe/search/", views.recipe_search, name="recipe_search"),
-    path("recipe/category/", views.recipe_search_by_category, name="recipe_category"),
-    path("recipe/method/", views.recipe_search_by_method, name="recipe_method"),
+    path("recipe/keyword/", views.recipe_keyword, name="recipe_keyword"),
+    path("recipe/filter/", views.recipe_filter, name="recipe_filter"),
     
     # Ingredient endpoints
     path("ingredient/", views.ingredient, name="ingredient"),

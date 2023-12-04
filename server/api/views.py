@@ -49,13 +49,14 @@ def user(request):
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            user_id = data["user_id"]
+            email = data["email"]
             first_name = data["first_name"]
             last_name = data["last_name"]
+            password = data["password"]
             age = data["age"]
             
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO api_user VALUES (%s, %s, %s, %s)", [user_id, first_name, last_name, age])
+                cursor.execute("INSERT INTO api_user (email, first_name, last_name, password, age) VALUES (%s, %s, %s, %s, %s)", [email, first_name, last_name, password, age])
                 users = dictfetchall(cursor)
                 return JsonResponse(users, safe=False)
         except Exception as e:
@@ -76,13 +77,16 @@ def user(request):
         try:
             data = json.loads(request.body)
             user_id = data["user_id"]
+            email = data["email"]
             first_name = data["first_name"]
             last_name = data["last_name"]
+            password = data["password"]
             age = data["age"]
             
             with connection.cursor() as cursor:
-                cursor.execute("UPDATE api_user SET first_name = %s, last_name = %s, age = %s WHERE user_id = %s", [first_name, last_name, age, user_id])
-                return HttpResponse("User updated")
+                cursor.execute("UPDATE api_user SET email = %s, first_name = %s, last_name = %s, password = %s, age = %s WHERE user_id = %s", [email, first_name, last_name, password, age, user_id])
+                users = dictfetchall(cursor)
+                return JsonResponse(users, safe=False)
         except Exception as e:
             return HttpResponse(e)
 
@@ -126,7 +130,8 @@ def cuisine(request):
             
             with connection.cursor() as cursor:
                 cursor.execute("INSERT INTO api_cuisine VALUES (%s, %s, %s)", [cuisine_name, method, category])
-                return HttpResponse("Cuisine added")
+                cuisines = dictfetchall(cursor)
+                return JsonResponse(cuisines, safe=False)
         except Exception as e:
             return HttpResponse(e)
     
@@ -150,7 +155,8 @@ def cuisine(request):
             
             with connection.cursor() as cursor:
                 cursor.execute("UPDATE api_cuisine SET method = %s, category = %s WHERE cuisine_name = %s", [method, category, cuisine_name])
-                return HttpResponse("Cuisine updated")
+                cuisines = dictfetchall(cursor)
+                return JsonResponse(cuisines, safe=False)
         except Exception as e:
             return HttpResponse(e)
 
@@ -158,29 +164,40 @@ def cuisine(request):
 def recipe(request):
     if request.method == "GET":
         recipe_id = request.GET.get("recipe_id")
-        if recipe_id is None:
+        cuisine_name = request.GET.get("cuisine_name")
+        if recipe_id is None and cuisine_name is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe")
                 recipes = dictfetchall(cursor)
                 return JsonResponse(recipes, safe=False)
-        else:
+        elif recipe_id is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe WHERE cuisine_name = %s", [cuisine_name])
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
+        elif cuisine_name is None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe WHERE recipe_id = %s", [recipe_id])
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_recipe WHERE recipe_id = %s AND cuisine_name = %s", [recipe_id, cuisine_name])
                 recipes = dictfetchall(cursor)
                 return JsonResponse(recipes, safe=False)
     
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            recipe_id = data["recipe_id"]
             cook_time = data["cook_time"]
             description = data["description"]
             process = data["process"]
             cuisine_name = data["cuisine_name"]
             
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO api_recipe VALUES (%s, %s, %s, %s, %s)", [recipe_id, cook_time, description, process, cuisine_name])
-                return HttpResponse("Recipe added")
+                cursor.execute("INSERT INTO api_recipe (cook_time, description, process, cuisine_name) VALUES (%s, %s, %s, %s)", [cook_time, description, process, cuisine_name])
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
         except Exception as e:
             return HttpResponse(e)
     
@@ -198,50 +215,63 @@ def recipe(request):
     elif request.method == "PUT":
         try:
             data = json.loads(request.body)
-            recipe_id = data["recipe_id"]
             cook_time = data["cook_time"]
             description = data["description"]
             process = data["process"]
             cuisine_name = data["cuisine_name"]
             
             with connection.cursor() as cursor:
-                cursor.execute("UPDATE api_recipe SET cook_time = %s, description = %s, process = %s, cuisine_name = %s WHERE recipe_id = %s", [cook_time, description, process, cuisine_name, recipe_id])
-                return HttpResponse("Recipe updated")
+                cursor.execute("UPDATE api_recipe SET cook_time = %s, description = %s, process = %s WHERE cuisine_name = %s", [cook_time, description, process, cuisine_name])
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
         except Exception as e:
             return HttpResponse(e)
 
-def recipe_search(request):
+def recipe_keyword(request):
     if request.method == "GET":
         keyword = request.GET.get("keyword")
-        if keyword is None:
-            return HttpResponse("No keyword")
-        else:
+        if keyword is not None:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM api_recipe WHERE description LIKE %s", ["%" + keyword + "%"])
                 recipes = dictfetchall(cursor)
                 return JsonResponse(recipes, safe=False)
-            
-def recipe_search_by_category(request):
-    if request.method == "GET":
-        category = request.GET.get("category")
-        if category is None:
-            return HttpResponse("No category")
+        
         else:
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_recipe WHERE cuisine_name IN (SELECT cuisine_name FROM api_cuisine WHERE category = %s)", [category])
-                recipes = dictfetchall(cursor)
-                return JsonResponse(recipes, safe=False)
+            return HttpResponse("No search criteria")
 
-def recipe_search_by_method(request):
+def recipe_filter(request):
     if request.method == "GET":
         method = request.GET.get("method")
-        if method is None:
-            return HttpResponse("No method")
-        else:
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_recipe WHERE cuisine_name IN (SELECT cuisine_name FROM api_cuisine WHERE method = %s)", [method])
-                recipes = dictfetchall(cursor)
-                return JsonResponse(recipes, safe=False)
+        category = request.GET.get("category")
+        ingredient_name = request.GET.get("ingredient")
+
+        query = """
+            SELECT DISTINCT r.* FROM api_recipe r
+            INNER JOIN api_cuisine c ON r.cuisine_name = c.cuisine_name
+            INNER JOIN api_recipe_needs_ingredient rni ON r.recipe_id = rni.recipe_id
+            INNER JOIN api_ingredient i ON rni.ingredient_name = i.ingredient_name
+        """
+
+        conditions = []
+        params = []
+
+        if method:
+            conditions.append("c.method = %s")
+            params.append(method)
+        if category:
+            conditions.append("c.category = %s")
+            params.append(category)
+        if ingredient_name:
+            conditions.append("i.ingredient_name = %s")
+            params.append(ingredient_name)
+
+        if conditions:
+            query += " WHERE " + " AND ".join(conditions)
+
+        with connection.cursor() as cursor:
+            cursor.execute(query, params)
+            recipes = dictfetchall(cursor)
+            return JsonResponse(recipes, safe=False)
 
 
 ### Ingredient ###
