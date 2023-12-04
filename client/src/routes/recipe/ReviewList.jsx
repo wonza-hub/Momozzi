@@ -6,6 +6,13 @@ import Review from "./Review";
 const ReviewList = ({ reviews, setReviews }) => {
   const { postId } = useParams();
 
+  const handleDeleteReview = (reviewId) => {
+    const updatedReviews = reviews.filter(
+      (review) => review.review_id !== reviewId
+    );
+    setReviews(updatedReviews);
+  };
+
   // GET: 레시피 리뷰
   useEffect(() => {
     const reviewURL = `${process.env.REACT_APP_SERVER}/api/review/?recipe_id=${postId}`;
@@ -17,7 +24,7 @@ const ReviewList = ({ reviews, setReviews }) => {
   return (
     <div className="h-[600px] pt-12 p-20 overflow-y-auto">
       {reviews.map((review) => (
-        <Review review={review}></Review>
+        <Review review={review} onDeleteReview={handleDeleteReview}></Review>
       ))}
     </div>
   );
