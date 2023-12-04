@@ -4,7 +4,7 @@ import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
 
-const ReviewRegistration = ({ setReviews }) => {
+const ReviewRegistration = ({ reviews, setReviews }) => {
   const { postId } = useParams();
 
   const user = useSelector((state) => state.user);
@@ -41,14 +41,10 @@ const ReviewRegistration = ({ setReviews }) => {
         },
       })
       ?.then((res) => {
-        // 댓글 등록 성공시 리로딩
         if (res.status === 200) {
           setIsLoading(false);
           setNewReview("");
-          const reviewURL = `${process.env.REACT_APP_SERVER}/api/review/?recipe_id=${postId}`;
-          axios?.get(reviewURL)?.then((res) => {
-            setReviews(res.data);
-          });
+          setReviews([...reviews, reviewBody]);
         }
       })
       ?.catch(() => console.log("post fail"));

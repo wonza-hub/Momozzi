@@ -53,22 +53,21 @@ const Recipe = () => {
   };
   const handleReviewClose = () => setIsReviewOpen(false);
 
-  // 레시피 리뷰 목록 조회
-  useEffect(() => {
-    const reviewURL = `${process.env.REACT_APP_SERVER}/api/review/?recipe_id=${postId}`;
-    axios?.get(reviewURL)?.then((res) => {
-      setReviews(res.data);
-    });
-  }, [postId]);
-
   return (
     <>
       <div className="flex flex-row">
         <div className="relative w-1/2 pt-[100px] h-screen bg-primary/20 flex flex-col">
           {isReviewOpen ? (
             <>
-              <ReviewList reviews={reviews}></ReviewList>
-              <ReviewRegistration setReviews={setReviews}></ReviewRegistration>
+              <ReviewList
+                reviews={reviews}
+                setReviews={setReviews}
+              ></ReviewList>
+              <ReviewRegistration
+                reviews={reviews}
+                setIsReviewOpen={setIsReviewOpen}
+                setReviews={setReviews}
+              ></ReviewRegistration>
               <button
                 className="absolute right-8 bottom-8 w-14 h-14 bg-primary/80 hover:bg-primary/90 rounded-full"
                 onClick={handleReviewClose}
