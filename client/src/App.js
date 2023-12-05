@@ -14,7 +14,7 @@ function App() {
         <Route path={"/"} element={<NavBar />}>
           <Route path={""} element={<MainPage />} />
           <Route path={"mypage"} element={<Mypage />} />
-          <Route path={"refrigerator"} element={<Refrigerator />} />
+          <Route path={"refrigerator/:fridgeId"} element={<Refrigerator />} />
           <Route path={"search"} element={<RecipeSearcher />} />
           <Route path={"recommend"} element={<RecipeRecommendation />} />
           <Route path={"recipe/:postId"} element={<Recipe />} />
