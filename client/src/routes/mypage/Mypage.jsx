@@ -9,13 +9,21 @@ const Mypage = () => {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    // 사용자 보유 냉장고 조회
-    let openFridgeUrl = `${process.env.REACT_APP_SERVER}/api/refrigerator/?user_id=${user.id}`;
-    axios?.get(openFridgeUrl)?.then((res) => {
-      console.log(res.data);
+    // GET: 사용자 보유 냉장고 조회
+    let openFridgeURL = `${process.env.REACT_APP_SERVER}/api/refrigerator/?user_id=${user.id}`;
+    axios?.get(openFridgeURL)?.then((res) => {
       setMyRefrigerators(res.data);
     });
   }, [user.id]);
+
+  // useEffect(() => {
+  //   // 미완성
+  //   // GET: 사용자 선호 요리 조회
+  //   let favoriteCuisineURL = `${process.env.REACT_APP_SERVER}/api//?user_id=${user.id}`;
+  //   axios?.get(favoriteCuisineURL)?.then((res) => {
+  //     setFavoriteCuisines(res.data);
+  //   });
+  // }, [user.id]);
 
   return (
     <>

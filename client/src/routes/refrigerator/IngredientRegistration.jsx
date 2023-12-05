@@ -1,9 +1,14 @@
 import { useState, useRef } from "react";
-import { redirect } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 
+/**
+ * 재료 등록 컴포넌트
+ * @returns
+ */
 const IngredientRegistration = () => {
+  const { fridgeId } = useParams();
   const [newIngredient, setNewIngredient] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,12 +25,18 @@ const IngredientRegistration = () => {
     if (!newIngredient) {
       return;
     }
-    const ingredientPostURL = `${process.env.REACT_APP_SERVER}/`;
+
+    let requestBody = {
+      refrigerator_id: fridgeId,
+      ingredient_name: newIngredient,
+    };
+    // 미완성
+    // POST: 냉장고 내 재료 추가
+    const ingredientPostURL = `${process.env.REACT_APP_SERVER}/api/refrigerator_stores_ingredient`;
     axios
-      ?.post(ingredientPostURL, newIngredient)
+      ?.post(ingredientPostURL, requestBody)
       ?.then((res) => {
         if (res.status === 200) {
-          return redirect("/refrigerator");
         }
       })
       ?.catch(() => console.log("post fail"));
@@ -34,7 +45,7 @@ const IngredientRegistration = () => {
   return (
     <>
       <form
-        className="flex flex-row justify-end mt-8 mb-12"
+        className="flex flex-row justify-end mt-6 mb-2"
         onSubmit={addIngredient}
       >
         {isLoading ? (

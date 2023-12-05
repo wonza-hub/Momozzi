@@ -1,5 +1,10 @@
 import StoredIngredient from "./StoredIngredient";
 
+/**
+ * 냉장고 내 재료 목록 컴포넌트
+ * @param {storedIngredients}
+ * @returns
+ */
 const Inventory = ({ storedIngredients }) => {
   return (
     <>
