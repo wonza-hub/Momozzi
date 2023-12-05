@@ -1,7 +1,6 @@
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { METHOD, CATEGORY, INGREDIENT } from "../../constants/Constant.js";
-import SearchBtn from "./SearchBtn.jsx";
 import SearchBox from "./SearchBox.jsx";
 import axios from "axios";
 
@@ -22,12 +21,9 @@ const SearchBar = ({ setRecipes }) => {
     setIngredients(event.target.value);
   };
 
-  // 검색 버튼 클릭시 데이터 요청
-  const handleSearchClick = () => {
+  // GET: 필터 선택시마다 레시피 요청
+  useEffect(() => {
     if (method || category || ingredient) {
-      console.log(method);
-      console.log(category);
-      console.log(ingredient);
       const filterUrl = `${process.env.REACT_APP_SERVER}/api/recipe/filter/?method=${method}&category=${category}&ingredient=${ingredient}`;
       const queryParams = {
         method: method,
@@ -42,10 +38,8 @@ const SearchBar = ({ setRecipes }) => {
         .catch((error) => {
           console.error("음식 정보 불러오기 실패", error);
         });
-    } else {
-      alert("필터 조건을 선택하세요");
     }
-  };
+  }, [method, category, ingredient, setRecipes]);
 
   const onSearchContentChange = () => {
     const searchInputValue = searchInputRef.current.value;
@@ -122,7 +116,6 @@ const SearchBar = ({ setRecipes }) => {
             />
           ))}
         </RadioGroup>
-        <SearchBtn handleSearchClick={handleSearchClick}></SearchBtn>
         <SearchBox
           searchContent={searchContent}
           onSearchContentChange={onSearchContentChange}
