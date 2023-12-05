@@ -4,6 +4,11 @@ import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
 
+/**
+ * 리뷰 작성 컴포넌트
+ * @param {reviews, setReviews} param0
+ * @returns
+ */
 const ReviewRegistration = ({ reviews, setReviews }) => {
   const { postId } = useParams();
 
@@ -33,6 +38,7 @@ const ReviewRegistration = ({ reviews, setReviews }) => {
       recipe_id: postId,
     };
 
+    // POST: 리뷰 등록
     const reviewPostURL = `${process.env.REACT_APP_SERVER}/api/review/`;
     axios
       ?.post(reviewPostURL, reviewBody, {

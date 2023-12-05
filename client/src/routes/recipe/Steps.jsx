@@ -1,3 +1,8 @@
+/**
+ * 레시피 순서 컴포넌트
+ * @param {steps}
+ * @returns
+ */
 const Steps = ({ steps }) => {
   return (
     <>

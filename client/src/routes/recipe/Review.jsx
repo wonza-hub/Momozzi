@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 /**
- *
+ * 리뷰 단건 컴포넌트
  * @param {review, onDeleteReview} onDeleteReview:리뷰삭제 콜백함수
  * @returns
  */

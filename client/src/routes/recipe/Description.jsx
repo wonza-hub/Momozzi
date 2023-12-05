@@ -1,3 +1,8 @@
+/**
+ * 레시피 상세 내용 컴포넌트
+ * @param {description}
+ * @returns
+ */
 const Description = ({ description }) => {
   return (
     <>

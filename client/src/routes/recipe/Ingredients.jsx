@@ -1,3 +1,8 @@
+/**
+ * 레시피 재료 목록 컴포넌트
+ * @param {ingredients}
+ * @returns
+ */
 const Ingredients = ({ ingredients }) => {
   return (
     <>

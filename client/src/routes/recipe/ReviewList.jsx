@@ -3,6 +3,11 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Review from "./Review";
 
+/**
+ * 리뷰 목록 컴포넌트
+ * @param {reviews, setReviews}
+ * @returns
+ */
 const ReviewList = ({ reviews, setReviews }) => {
   const { postId } = useParams();
 
