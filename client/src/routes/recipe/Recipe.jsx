@@ -10,21 +10,20 @@ import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlineTimer } from "react-icons/md";
 import axios from "axios";
 
-// dummy
-import bg from "../../img/fridge_bg.png";
-
+/**
+ * 레시피 상세 페이지
+ */
 const Recipe = () => {
   const { postId } = useParams();
 
   const [cookTime, setCookTime] = useState("");
-  const [cuisineName, setCuisineName] = useState("");
   const [description, setDescription] = useState("");
   const [steps, setSteps] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    // 레시피 단건 조회
+    // GET: 레시피 단건 조회
     const dataUrl = `${process.env.REACT_APP_SERVER}/api/recipe/?recipe_id=${postId}`;
     axios
       ?.get(dataUrl, {
@@ -34,12 +33,11 @@ const Recipe = () => {
       })
       ?.then((res) => {
         setCookTime(res.data[0].cook_time);
-        setCuisineName(res.data[0].cuisine_name);
         setDescription(res.data[0].description);
         const processSteps = res.data[0].process.split(".");
         setSteps(processSteps);
       });
-    // 레시피 재료 조회
+    // GET: 레시피 재료 조회
     const recipeURL = `${process.env.REACT_APP_SERVER}/api/recipe_needs_ingredient/?recipe_id=${postId}`;
     axios?.get(recipeURL)?.then((res) => {
       setIngredients(res.data);
@@ -78,8 +76,8 @@ const Recipe = () => {
           ) : (
             <>
               <img
-                className="w-full h-full contrast-120 brightness-95"
-                src={bg}
+                className="w-full h-full contrast-120 brightness-95 object-contain"
+                src={`/img/${postId}.png`}
                 alt=""
               />
               <div className="absolute right-8 bottom-24 w-14 h-14 pt-2 bg-primary/90 rounded-full text-center">
