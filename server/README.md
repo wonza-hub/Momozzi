@@ -13,7 +13,7 @@
 
 ### User
 - **GET /api/user/**: Retrieve all users or a specific user by appending `?user_id={user_id}` or `?email={email}` to the URL.
-- **POST /api/user/**: Add a new user (`first_name`, `last_name`, and `age` in request body).
+- **POST /api/user/**: Add a new user (`email`, `password`, `first_name`, `last_name`, and `age` in request body).
 - **POST /api/user/login/**: Login a user (send `email` and `password` in request body).
 - **DELETE /api/user/**: Delete a user (send `user_id` in request body).
 - **PUT /api/user/**: Update a user (send `user_id`, `first_name`, `last_name`, and `age` in request body).
@@ -25,10 +25,10 @@
 - **PUT /api/cuisine/**: Update a cuisine (send `cuisine_name`, `method`, and `category` in request body).
 
 ### Recipe
-- **GET /api/recipe/**: Retrieve all recipes or a specific recipe by appending `?recipe_id={recipe_id}` to the URL.
+- **GET /api/recipe/**: Retrieve all recipes or a specific recipe by appending `?recipe_id={recipe_id}` or `?cuisine_name={cuisine_name}` to the URL.
 - **GET /api/recipe/keyword/**: Search for recipes by keyword (append `?keyword={keyword}` to the URL).
 - **GET /api/recipe/filter/**: Filter recipes by cuisine (append `?method={method}`, `category={category}`, and `ingredient={ingredient}` to the URL).
-- **POST /api/recipe/**: Add a new recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).
+- **POST /api/recipe/**: Add a new recipe (`cook_time`, `description`, `process`, and `cuisine_name` in request body).
 - **DELETE /api/recipe/**: Delete a recipe (send `recipe_id` in request body).
 - **PUT /api/recipe/**: Update a recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).
 
@@ -39,8 +39,8 @@
 - **PUT /api/ingredient/**: Update an ingredient (send `ingredient_name`, `type`, and `calories` in request body).
 
 ### Review
-- **GET /api/review/**: Retrieve all reviews or a specific review by appending `?review_id={review_id}&recipe_id={recipe_id}` to the URL.
-- **POST /api/review/**: Add a new review (send `review_id`, `content`, `user_id`, and `recipe_id` in request body).
+- **GET /api/review/**: Retrieve all reviews or a specific review by appending `?review_id={review_id}` or `recipe_id={recipe_id}` to the URL.
+- **POST /api/review/**: Add a new review (`content`, `user_id`, and `recipe_id` in request body).
 - **DELETE /api/review/**: Delete a review (send `review_id` in request body).
 - **PUT /api/review/**: Update a review (send `review_id`, `content`, `user_id`, and `recipe_id` in request body).
 
