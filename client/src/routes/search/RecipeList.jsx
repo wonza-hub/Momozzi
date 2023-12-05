@@ -1,10 +1,12 @@
-import { Stack, Pagination } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import RecipePreview from "./RecipePreview";
 
+/**
+ * 레시피 목록 컴포넌트
+ * @param {recipes}
+ * @returns
+ */
 const RecipeList = ({ recipes }) => {
-  const [page, setPage] = useState(1);
-
   return (
     <>
       <div className="w-screen h-screen pt-[100px] flex flex-row flex-wrap bg-backgroundGray/20 overflow-y-scroll">

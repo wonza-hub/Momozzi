@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 
+/**
+ * 레시피 썸네일 컴포넌트
+ * @param {recipe}
+ * @returns
+ */
 const RecipePreview = ({ recipe }) => {
   const recipeId = recipe.recipe_id;
   const recipeDescription = recipe.description;

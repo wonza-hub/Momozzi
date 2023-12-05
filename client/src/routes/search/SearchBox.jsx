@@ -1,6 +1,11 @@
 import { forwardRef } from "react";
 import { IoIosSearch } from "react-icons/io";
 
+/**
+ * 문자열 기반 레시피 검색창 컴포넌트
+ * @param {searchContent, onSearchContentChange, handleSearchBoxInputComplete}
+ * @returns
+ */
 const SearchBox = (
   { searchContent, onSearchContentChange, handleSearchBoxInputComplete },
   ref

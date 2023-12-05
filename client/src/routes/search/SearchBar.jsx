@@ -4,6 +4,11 @@ import { METHOD, CATEGORY, INGREDIENT } from "../../constants/Constant.js";
 import SearchBox from "./SearchBox.jsx";
 import axios from "axios";
 
+/**
+ * 레시피 사이드 검색바 컴포넌트
+ * @param {setRecipes}
+ * @returns
+ */
 const SearchBar = ({ setRecipes }) => {
   const [method, setMethod] = useState("");
   const [category, setCategory] = useState("");
