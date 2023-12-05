@@ -1,10 +1,9 @@
 import { Outlet, Link } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import LoginModal from "./LoginModal";
 import { clearUser } from "../reducer/userReducer";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 
 // 메뉴 드로어 mui
 import Box from "@mui/material/Box";
@@ -94,7 +93,7 @@ const NavBar = () => {
     <>
       <div className="fixed w-full h-[100px] px-8 bg-white/95 top-0 z-10 flex flex-row justify-between">
         <h1 className="my-auto text-4xl font-semibold text-primary">
-          <Link to={"/page"}>Momozzi</Link>
+          <Link to={""}>Momozzi</Link>
         </h1>
         <div className="flex items-center flex-end">
           {user.isLogin ? (
