@@ -1,12 +1,11 @@
-import RecommendBtn from "./RecommendBtn";
 import { METHOD, CATEGORY } from "../../constants/Constant";
 import DropDown from "../../components/DropDown";
-import { useState } from "react";
 
-const RecommendFilter = () => {
-  const [method, setMethod] = useState("");
-  const [category, setCategory] = useState("");
-
+/**
+ * 레시피 추천 필터 컴포넌트
+ * @returns
+ */
+const RecommendFilter = ({ setMethod, setCategory }) => {
   return (
     <>
       <div className="flex flex-row justify-evenly mt-8 mb-12">
@@ -24,7 +23,6 @@ const RecommendFilter = () => {
             <DropDown menuItems={CATEGORY} setArg={setCategory}></DropDown>
           </div>
         </div>
-        <RecommendBtn method={method} category={category}></RecommendBtn>
       </div>
     </>
   );
