@@ -27,6 +27,7 @@ urlpatterns = [
     
     # Refrigerator endpoints
     path("refrigerator/", views.refrigerator, name="refrigerator"),
+    path("refrigerator/recommend/", views.recommend_recipe_by_refrigerator, name="recommend_recipe_by_refrigerator"),
     
     # Refrigerator Stores Ingredient endpoints
     path("refrigerator_stores_ingredient/", views.refrigerator_stores_ingredient, name="refrigerator_stores_ingredient"),

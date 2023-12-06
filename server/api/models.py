@@ -9,7 +9,8 @@ class User(models.Model):
     age = models.IntegerField()
 
 class Cuisine(models.Model):
-    cuisine_name = models.CharField(primary_key=True, max_length=30)
+    cuisine_id = models.BigAutoField(primary_key=True)
+    cuisine_name = models.CharField(max_length=30)
     method = models.CharField(max_length=30)
     category = models.CharField(max_length=30)
 
