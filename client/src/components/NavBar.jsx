@@ -15,6 +15,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
+/**
+ * 상단 네비게이션바 컴포넌트
+ * @returns
+ */
 const NavBar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const handleLoginOpen = () => {
@@ -99,7 +103,7 @@ const NavBar = () => {
           {user.isLogin ? (
             <>
               <div className="w-12 h-12 mr-6 text-lg text-white text-center leading-[44px] rounded-full bg-secondary">
-                {user.name}
+                {user.last_name}
               </div>
               <button
                 className="text-xl mr-6 px-2 text-black/90"

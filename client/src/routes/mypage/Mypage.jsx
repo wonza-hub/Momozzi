@@ -3,6 +3,10 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+/**
+ * 프로필 페이지
+ * @returns
+ */
 const Mypage = () => {
   const [favoriteCuisines, setFavoriteCuisines] = useState([]);
   const [myRefrigerators, setMyRefrigerators] = useState([]);
@@ -30,34 +34,40 @@ const Mypage = () => {
       <div className="relative min-w-screen min-h-screen bg-[#DBDBDB]/20">
         {/* box shadows - next.js */}
         <div className="absolute w-[480px] min-h-[620px] bg-white/80 top-[450px] left-2/4 -translate-x-2/4 -translate-y-[320px] px-12 pt-10 rounded-2xl opacity-85 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
-          <header className="mb-5 text-xl font-bold text-primary drop-shadow-sm">
+          <header className="mb-4 text-xl font-bold text-primary drop-shadow-sm">
             이름
           </header>
-          {/* {user.} */}
-          <header className="mb-5 text-xl font-bold text-primary drop-shadow-sm">
+          <div className="font-semibold text-lg text-black">{user.name}</div>
+          <header className="my-4 text-xl font-bold text-primary drop-shadow-sm">
             좋아하는 요리
           </header>
-          <div>
-            <ul>
-              {/* {favoriteCuisines.map(() => (
-                <li></li>
-              ))} */}
-            </ul>
+          <div className="flex flex-row">
+            {favoriteCuisines.map((item) => (
+              <div className="mr-2 px-2 py-1 bg-slate-200 rounded-xl border-2 border-secondary">
+                {item}
+              </div>
+            ))}
           </div>
-          <header className="mb-5 text-xl font-bold text-primary drop-shadow-sm">
+          <header className="my-4 text-xl font-bold text-primary drop-shadow-sm">
             나의 냉장고
           </header>
-          <div className="w-full mb-2 flex flex-row justify-around">
-            <span>용량</span>
-            <span>생성일자</span>
+          <div className="w-full mb-2 flex flex-row">
+            <span className="mx-8">용량</span>
+            <span className="mx-10">생성일자</span>
           </div>
           {myRefrigerators.map((refrigerator) => (
-            <Link to={`../refrigerator/${refrigerator.refrigerator_id}`}>
-              <div className="w-full bg-slate-200 rounded-xl border-2 border-secondary flex flex-row justify-around">
-                <span className="">{refrigerator.capacity}</span>
-                <span>{refrigerator.created_at}</span>
-              </div>
-            </Link>
+            <div className="w-full py-2 bg-slate-200 rounded-xl border-2 border-secondary flex flex-row">
+              <span className="mr-8 pl-8 text-black">
+                {refrigerator.capacity}
+              </span>
+              <span className="mr-8 text-black">{refrigerator.created_at}</span>
+              <Link
+                to={`../refrigerator/${refrigerator.refrigerator_id}`}
+                key={refrigerator.refrigerator_id}
+              >
+                <span className="mx-6">열기</span>
+              </Link>
+            </div>
           ))}
         </div>
       </div>
