@@ -272,6 +272,34 @@ def recipe_filter(request):
             cursor.execute(query, params)
             recipes = dictfetchall(cursor)
             return JsonResponse(recipes, safe=False)
+        
+def recommend_recipe_by_refrigerator(request):
+    if request.method == "GET":
+        refrigerator_id = request.GET.get("refrigerator")
+        if refrigerator_id is not None:
+            with connection.cursor() as cursor:
+                query = """
+                    
+                """
+                cursor.execute("""
+                    SELECT r.*
+                    FROM api_recipe r
+                    WHERE NOT EXISTS (
+                        SELECT 1
+                        FROM api_recipe_needs_ingredient rni
+                        WHERE rni.recipe_id = r.recipe_id
+                        AND rni.ingredient_name NOT IN (
+                            SELECT rsi.ingredient_name
+                            FROM api_refrigerator_stores_ingredient rsi
+                            WHERE rsi.refrigerator_id = %s
+                        )
+                    )
+                """, [refrigerator_id])
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
+        else:
+            return JsonResponse([], safe=False)
+        
 
 
 ### Ingredient ###
@@ -541,34 +569,6 @@ def refrigerator(request):
                 return HttpResponse("Refrigerator updated")
         except Exception as e:
             return HttpResponse(e)
-
-def recommend_recipe_by_refrigerator(request):
-    if request.method == "GET":
-        refrigerator_id = request.GET.get("refrigerator")
-        if refrigerator_id is not None:
-            with connection.cursor() as cursor:
-                query = """
-                    
-                """
-                cursor.execute("""
-                    SELECT r.*
-                    FROM api_recipe r
-                    WHERE NOT EXISTS (
-                        SELECT 1
-                        FROM api_recipe_needs_ingredient rni
-                        WHERE rni.recipe_id = r.recipe_id
-                        AND rni.ingredient_name NOT IN (
-                            SELECT rsi.ingredient_name
-                            FROM api_refrigerator_stores_ingredient rsi
-                            WHERE rsi.refrigerator_id = %s
-                        )
-                    )
-                """, [refrigerator_id])
-                recipes = dictfetchall(cursor)
-                return JsonResponse(recipes, safe=False)
-        else:
-            return JsonResponse({"message": "Refrigerator ID not provided"}, status=400)
-
 
 
 
