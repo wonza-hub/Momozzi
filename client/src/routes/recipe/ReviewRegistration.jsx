@@ -36,6 +36,7 @@ const ReviewRegistration = ({ reviews, setReviews }) => {
       content: newReview,
       user_id: user.id,
       recipe_id: postId,
+      last_name: user.last_name,
     };
 
     // POST: 리뷰 등록
@@ -52,8 +53,7 @@ const ReviewRegistration = ({ reviews, setReviews }) => {
           setNewReview("");
           setReviews([...reviews, reviewBody]);
         }
-      })
-      ?.catch(() => console.log("post fail"));
+      });
   };
 
   return (
