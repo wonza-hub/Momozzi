@@ -18,15 +18,13 @@ const Refrigerator = () => {
   const [method, setMethod] = useState("");
   const [category, setCategory] = useState("");
 
-  // useEffect(() => {
-  //   // 미완성
-  //   // GET: 냉장고 내 재료 불러오기
-  //   let openFridgeUrl = `${process.env.REACT_APP_SERVER}/api/refrigerator/?refrigerator_id=${fridgeId}`;
-  //   axios?.get(openFridgeUrl)?.then((res) => {
-  //     console.log(res);
-  //     setStoredIngredients(res.data);
-  //   });
-  // }, []);
+  useEffect(() => {
+    // GET: 냉장고 내 재료 불러오기
+    let openFridgeUrl = `${process.env.REACT_APP_SERVER}/api/refrigerator_stores_ingredient/?refrigerator=${fridgeId}`;
+    axios?.get(openFridgeUrl)?.then((res) => {
+      setStoredIngredients(res.data);
+    });
+  }, [fridgeId]);
 
   const onRecommendClick = () => {
     let body = {
