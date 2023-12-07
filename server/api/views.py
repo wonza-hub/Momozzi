@@ -277,12 +277,9 @@ def recommend_recipe_by_refrigerator(request):
     if request.method == "GET":
         refrigerator_id = request.GET.get("refrigerator")
         if refrigerator_id is not None:
-            with connection.cursor() as cursor:
-                query = """
-                    
-                """
+            with connection.cursor() as cursor:     # todo : make this view
                 cursor.execute("""
-                    SELECT r.*
+                    SELECT r.* 
                     FROM api_recipe r
                     WHERE NOT EXISTS (
                         SELECT 1
@@ -579,22 +576,41 @@ def refrigerator_stores_ingredient(request):
         ingredient_name = request.GET.get("ingredient_name")
         if refrigerator is None and ingredient_name is None:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient")
+                cursor.execute("""
+                    SELECT *
+                    FROM api_refrigerator_stores_ingredient rsi
+                    JOIN api_ingredient i ON rsi.ingredient_name = i.ingredient_name
+                    """) 
                 refrigerator_stores_ingredients = dictfetchall(cursor)
                 return JsonResponse(refrigerator_stores_ingredients, safe=False)
         elif refrigerator is None:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE ingredient_name = %s", [ingredient_name])
+                cursor.execute("""
+                    SELECT *
+                    FROM api_refrigerator_stores_ingredient rsi
+                    JOIN api_ingredient i ON rsi.ingredient_name = i.ingredient_name
+                    WHERE i.ingredient_name = %s
+                    """, [ingredient_name]) 
                 refrigerator_stores_ingredients = dictfetchall(cursor)
                 return JsonResponse(refrigerator_stores_ingredients, safe=False)
         elif ingredient_name is None:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator_id = %s", [refrigerator])
+                cursor.execute("""
+                    SELECT *
+                    FROM api_refrigerator_stores_ingredient rsi
+                    JOIN api_ingredient i ON rsi.ingredient_name = i.ingredient_name
+                    WHERE rsi.refrigerator_id = %s
+                    """, [refrigerator])
                 refrigerator_stores_ingredients = dictfetchall(cursor)
                 return JsonResponse(refrigerator_stores_ingredients, safe=False)
         else:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator_id = %s AND ingredient_name = %s", [refrigerator, ingredient_name])
+                cursor.execute("""
+                    SELECT *
+                    FROM api_refrigerator_stores_ingredient rsi
+                    JOIN api_ingredient i ON rsi.ingredient_name = i.ingredient_name
+                    WHERE rsi.refrigerator_id = %s AND i.ingredient_name = %s
+                    """, [refrigerator, ingredient_name])
                 refrigerator_stores_ingredients = dictfetchall(cursor)
                 return JsonResponse(refrigerator_stores_ingredients, safe=False)
     
