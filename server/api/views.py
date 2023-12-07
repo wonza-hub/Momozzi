@@ -622,7 +622,7 @@ def refrigerator_stores_ingredient(request):
             ingredient_name = data["ingredient_name"]
             
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO api_refrigerator_stores_ingredient VALUES (%s, %s)", [refrigerator, ingredient_name])
+                cursor.execute("INSERT INTO api_refrigerator_stores_ingredient (refrigerator_id, ingredient_name) VALUES (%s, %s)", [refrigerator, ingredient_name])
                 return HttpResponse("Refrigerator stores ingredient added")
         except Exception as e:
             return HttpResponse(e)
