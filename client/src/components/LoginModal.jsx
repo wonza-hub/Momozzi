@@ -3,6 +3,11 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { loginUser } from "../reducer/userReducer";
 
+/**
+ * 로그인 모달창 컴포넌트
+ * @param {handleLoginOpen}
+ * @returns
+ */
 const LoginModal = ({ handleLoginOpen }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +39,7 @@ const LoginModal = ({ handleLoginOpen }) => {
       password,
     };
 
+    // POST: 사용자 로그인 정보 입력
     const loginPostURL = `${process.env.REACT_APP_SERVER}/api/user/login/`;
     axios
       ?.post(loginPostURL, body, {
