@@ -11,7 +11,7 @@ const Inventory = ({ storedIngredients }) => {
 
   return (
     <>
-      <header className="px-32 flex flex-row justify-between text-[18px] text-primary/80 font-bold mb-4">
+      <header className="w-[460px] mx-auto flex flex-row justify-between text-[18px] text-primary/80 font-bold mb-4">
         <span>Type</span>
         <span>Name</span>
         <span>Calories</span>

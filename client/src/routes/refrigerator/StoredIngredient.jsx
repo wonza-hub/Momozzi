@@ -5,12 +5,18 @@
  */
 const StoredIngredient = ({ ingredient }) => {
   return (
-    <div className="text-lg my-2 flex flex-row text-[#111111]">
-      <span className="ingredientType">{ingredient.type}</span>
-      <span className="ingredientName text-left">
-        {ingredient.ingredient_name}
-      </span>
-      <span className="ingredientName">{ingredient.calories}</span>
+    <div className="text-lg my-2 px-14 flex flex-row text-[#111111]">
+      <div className="w-52">
+        <span className="ingredientType">{ingredient.type}</span>
+      </div>
+      <div className="w-48">
+        <span className="ingredientName text-left">
+          {ingredient.ingredient_name}
+        </span>
+      </div>
+      <div className="w-24 pl-6">
+        <span className="ingredientName">{ingredient.calories}</span>
+      </div>
     </div>
   );
 };
