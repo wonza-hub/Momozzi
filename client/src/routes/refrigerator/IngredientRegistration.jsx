@@ -63,7 +63,7 @@ const IngredientRegistration = () => {
           />
         )}
         <button
-          className="w-32 h-12 px-4 my-auto bg-primary/90 text-xl text-white rounded-xl hover:bg-primary duration-300"
+          className="w-32 h-12 px-4 bg-primary/90 text-xl text-white rounded-xl hover:bg-primary duration-300"
           type={isLoading ? "button" : "submit"}
         >
           Add
