@@ -570,6 +570,7 @@ def refrigerator(request):
 
 
 ### Refrigerator Stores Ingredient ###
+@csrf_exempt
 def refrigerator_stores_ingredient(request):
     if request.method == "GET":
         refrigerator = request.GET.get("refrigerator")
