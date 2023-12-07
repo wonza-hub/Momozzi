@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { loginUser } from "../reducer/userReducer";
+import { useNavigate } from "react-router-dom";
 
 /**
  * 로그인 모달창 컴포넌트
@@ -17,6 +18,7 @@ const LoginModal = ({ handleLoginOpen }) => {
   const passwordInputRef = useRef();
 
   const userDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleEmailInputChange = () => {
     setEmail(emailInputRef.current.value);
@@ -50,6 +52,7 @@ const LoginModal = ({ handleLoginOpen }) => {
       ?.then((res) => {
         if (res.status === 200) {
           userDispatch(loginUser(res.data));
+          navigate("");
           handleLoginOpen();
         }
       })
