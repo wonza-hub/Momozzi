@@ -272,6 +272,34 @@ def recipe_filter(request):
             cursor.execute(query, params)
             recipes = dictfetchall(cursor)
             return JsonResponse(recipes, safe=False)
+        
+def recommend_recipe_by_refrigerator(request):
+    if request.method == "GET":
+        refrigerator_id = request.GET.get("refrigerator")
+        if refrigerator_id is not None:
+            with connection.cursor() as cursor:
+                query = """
+                    
+                """
+                cursor.execute("""
+                    SELECT r.*
+                    FROM api_recipe r
+                    WHERE NOT EXISTS (
+                        SELECT 1
+                        FROM api_recipe_needs_ingredient rni
+                        WHERE rni.recipe_id = r.recipe_id
+                        AND rni.ingredient_name NOT IN (
+                            SELECT rsi.ingredient_name
+                            FROM api_refrigerator_stores_ingredient rsi
+                            WHERE rsi.refrigerator_id = %s
+                        )
+                    )
+                """, [refrigerator_id])
+                recipes = dictfetchall(cursor)
+                return JsonResponse(recipes, safe=False)
+        else:
+            return JsonResponse([], safe=False)
+        
 
 
 ### Ingredient ###
@@ -333,24 +361,47 @@ def review(request):
     if request.method == "GET":
         review_id = request.GET.get("review_id")
         recipe_id = request.GET.get("recipe_id")
+        
         if review_id is None and recipe_id is None:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_review")
+                cursor.execute(cursor.execute("""
+                    SELECT r.*, u.first_name, u.last_name 
+                    FROM api_review r
+                    JOIN api_user u ON r.user_id = u.user_id
+                """))
                 reviews = dictfetchall(cursor)
                 return JsonResponse(reviews, safe=False)
+            
         elif review_id is None:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_review WHERE recipe_id = %s", [recipe_id])
+                cursor.execute("""
+                    SELECT r.*, u.first_name, u.last_name
+                    FROM api_review r
+                    JOIN api_user u ON r.user_id = u.user_id
+                    WHERE recipe_id = %s
+                """, [recipe_id])
                 reviews = dictfetchall(cursor)
                 return JsonResponse(reviews, safe=False)
+            
         elif recipe_id is None:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_review WHERE review_id = %s", [review_id])
+                cursor.execute("""
+                    SELECT r.*, u.first_name, u.last_name
+                    FROM api_review r
+                    JOIN api_user u ON r.user_id = u.user_id
+                    WHERE review_id = %s
+                """, [review_id])
                 reviews = dictfetchall(cursor)
                 return JsonResponse(reviews, safe=False)
+            
         else:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_review WHERE review_id = %s AND recipe_id = %s", [review_id, recipe_id])
+                cursor.execute("""
+                    SELECT r.*, u.first_name, u.last_name
+                    FROM api_review r
+                    JOIN api_user u ON r.user_id = u.user_id
+                    WHERE review_id = %s AND recipe_id = %s
+                """, [review_id, recipe_id])
                 reviews = dictfetchall(cursor)
                 return JsonResponse(reviews, safe=False)
     
@@ -461,7 +512,7 @@ def recipe_needs_ingredient(request):
 ### Refrigerator ###
 def refrigerator(request):
     if request.method == "GET":
-        refrigerator_id = request.GET.get("refrigerator_id")
+        refrigerator_id = request.GET.get("refrigerator")
         user_id = request.GET.get("user_id")
         if refrigerator_id is None and user_id is None:
             with connection.cursor() as cursor:
@@ -499,7 +550,7 @@ def refrigerator(request):
     elif request.method == "DELETE":
         try:
             data = json.loads(request.body)
-            refrigerator_id = data["refrigerator_id"]
+            refrigerator_id = data["refrigerator"]
             
             with connection.cursor() as cursor:
                 cursor.execute("DELETE FROM api_refrigerator WHERE refrigerator_id = %s", [refrigerator_id])
@@ -538,12 +589,12 @@ def refrigerator_stores_ingredient(request):
                 return JsonResponse(refrigerator_stores_ingredients, safe=False)
         elif ingredient_name is None:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator = %s", [refrigerator])
+                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator_id = %s", [refrigerator])
                 refrigerator_stores_ingredients = dictfetchall(cursor)
                 return JsonResponse(refrigerator_stores_ingredients, safe=False)
         else:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator = %s AND ingredient_name = %s", [refrigerator, ingredient_name])
+                cursor.execute("SELECT * FROM api_refrigerator_stores_ingredient WHERE refrigerator_id = %s AND ingredient_name = %s", [refrigerator, ingredient_name])
                 refrigerator_stores_ingredients = dictfetchall(cursor)
                 return JsonResponse(refrigerator_stores_ingredients, safe=False)
     
