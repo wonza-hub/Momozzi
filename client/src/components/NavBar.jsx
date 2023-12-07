@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState } from "react";
 import LoginModal from "./LoginModal";
@@ -28,8 +28,11 @@ const NavBar = () => {
   const user = useSelector((state) => state.user);
   const userDispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const handleLogoutClick = () => {
     userDispatch(clearUser());
+    navigate("");
   };
 
   const [state, setState] = useState({
