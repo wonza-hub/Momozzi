@@ -16,6 +16,7 @@ urlpatterns = [
     path("recipe/keyword/", views.recipe_keyword, name="recipe_keyword"),
     path("recipe/filter/", views.recipe_filter, name="recipe_filter"),
     path("recipe/top/", views.recipe_top, name="recipe_top"),
+    path("recipe/fast/", views.recipe_fast, name="recipe_fast"),
     
     # Ingredient endpoints
     path("ingredient/", views.ingredient, name="ingredient"),
