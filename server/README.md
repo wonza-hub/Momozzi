@@ -29,6 +29,7 @@
 - **GET /api/recipe/keyword/**: Search for recipes by keyword (append `?keyword={keyword}` to the URL).
 - **GET /api/recipe/filter/**: Filter recipes by cuisine (append `?method={method}`, `category={category}`, and `ingredient={ingredient}` to the URL).
 - **GET /api/recipe/recommend/**: Recommend recipes to a user (append `?refrigerator={refrigerator_id}` to the URL).
+- **GET /api/recipe/top/**: Retrieve top 3 recipes by review count.
 - **POST /api/recipe/**: Add a new recipe (`cook_time`, `description`, `process`, and `cuisine_name` in request body).
 - **DELETE /api/recipe/**: Delete a recipe (send `recipe_id` in request body).
 - **PUT /api/recipe/**: Update a recipe (send `recipe_id`, `cook_time`, `description`, `process`, and `cuisine_name` in request body).

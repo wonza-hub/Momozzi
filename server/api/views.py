@@ -296,7 +296,20 @@ def recommend_recipe_by_refrigerator(request):
                 return JsonResponse(recipes, safe=False)
         else:
             return JsonResponse([], safe=False)
-        
+
+def recipe_top(request):
+    if request.method == "GET":
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT rcp.*, COUNT(rvw.review_id) AS review_count
+                FROM api_recipe rcp
+                LEFT JOIN api_review rvw ON rcp.recipe_id = rvw.recipe_id
+                GROUP BY rcp.recipe_id
+                ORDER BY review_count DESC
+                LIMIT 3
+            """)
+            recipes = dictfetchall(cursor)
+            return JsonResponse(recipes, safe=False)
 
 
 ### Ingredient ###
