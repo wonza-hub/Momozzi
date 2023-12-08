@@ -1,8 +1,8 @@
-import { Select, MenuItem } from "@mui/material";
+import { Select, MenuItem, InputLabel } from "@mui/material";
 import { useState } from "react";
 
 const DropDown = ({ menuItems, setArg }) => {
-  const [item, setItem] = useState(menuItems[0]);
+  const [item, setItem] = useState("");
 
   const handleChange = (event) => {
     setItem(event.target.value);
@@ -11,11 +11,12 @@ const DropDown = ({ menuItems, setArg }) => {
 
   return (
     <>
+      <InputLabel id="label">Ingredient</InputLabel>
       <Select
         className="w-48 h-8"
         value={item}
         onChange={handleChange}
-        renderValue={(value) => (value ? value : "None")}
+        renderValue={(value) => (value ? value : "")}
       >
         {menuItems.map((item, idx) => (
           <MenuItem key={idx} value={item}>

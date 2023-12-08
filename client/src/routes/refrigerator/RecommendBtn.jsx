@@ -7,7 +7,7 @@ const RecommendBtn = ({ method, onRecommendClick }) => {
   return (
     <>
       <button
-        className="w-44 h-12 mt-4 px-4 float-right bg-primary/90 text-xl text-white rounded-xl hover:bg-primary duration-300"
+        className="w-44 h-12 mt-3 px-4 float-right bg-primary/90 text-xl text-white rounded-xl hover:bg-primary duration-300"
         onClick={onRecommendClick}
       >
         Recommend!
