@@ -20,14 +20,14 @@ const Mypage = () => {
     });
   }, [user.id]);
 
-  // useEffect(() => {
-  //   // 미완성
-  //   // GET: 사용자 선호 요리 조회
-  //   let favoriteCuisineURL = `${process.env.REACT_APP_SERVER}/api//?user_id=${user.id}`;
-  //   axios?.get(favoriteCuisineURL)?.then((res) => {
-  //     setFavoriteCuisines(res.data);
-  //   });
-  // }, [user.id]);
+  useEffect(() => {
+    // GET: 사용자 선호 요리 조회
+    let favoriteCuisineURL = `${process.env.REACT_APP_SERVER}/api/user_likes_cuisine/?user_id=${user.id}`;
+    axios?.get(favoriteCuisineURL)?.then((res) => {
+      // console.log(res.data);
+      setFavoriteCuisines(res.data);
+    });
+  }, [user.id]);
 
   return (
     <>
@@ -42,9 +42,9 @@ const Mypage = () => {
             좋아하는 요리
           </header>
           <div className="flex flex-row">
-            {favoriteCuisines.map((item) => (
+            {favoriteCuisines.map((cuisine) => (
               <div className="mr-2 px-2 py-1 bg-slate-200 rounded-xl border-2 border-secondary">
-                {item}
+                {cuisine.cuisine_name}
               </div>
             ))}
           </div>
