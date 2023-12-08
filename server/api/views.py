@@ -664,6 +664,56 @@ def refrigerator_stores_ingredient(request):
         except Exception as e:
             return HttpResponse(e)
 
+@csrf_exempt
+def user_likes_cuisine(request):
+    if request.method == "GET":
+        user_id = request.GET.get("user_id")
+        if user_id is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_user_likes_cuisine")
+                user_likes_cuisines = dictfetchall(cursor)
+                return JsonResponse(user_likes_cuisines, safe=False)
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM api_user_likes_cuisine WHERE user_id = %s", [user_id])
+                user_likes_cuisines = dictfetchall(cursor)
+                return JsonResponse(user_likes_cuisines, safe=False)
+    
+    elif request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            user_id = data["user_id"]
+            cuisine_name = data["cuisine_name"]
+            
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO api_user_likes_cuisine (user_id, cuisine_name) VALUES (%s, %s)", [user_id, cuisine_name])
+                return HttpResponse("User likes cuisine added")
+        except Exception as e:
+            return HttpResponse(e)
+    
+    elif request.method == "DELETE":
+        try:
+            data = json.loads(request.body)
+            user_id = request.POST["user_id"]
+            cuisine_name = request.POST["cuisine_name"]
+            
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM api_user_likes_cuisine WHERE user_id = %s AND cuisine_name = %s", [user_id, cuisine_name])
+                return HttpResponse("User likes cuisine deleted")
+        except Exception as e:
+            return HttpResponse(e)
+    
+    elif request.method == "PUT":
+        try:
+            data = json.loads(request.body)
+            user_id = data["user_id"]
+            cuisine_name = data["cuisine_name"]
+            
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE api_user_likes_cuisine SET cuisine_name = %s WHERE user_id = %s", [cuisine_name, user_id])
+                return HttpResponse("User likes cuisine updated")
+        except Exception as e:
+            return HttpResponse(e)
 
 
 ### Dummy ###

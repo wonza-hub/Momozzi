@@ -62,3 +62,13 @@ class Refrigerator_Stores_Ingredient(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['refrigerator_id', 'ingredient_name'], name='unique_refrigerator_ingredient')
         ]
+
+class User_Likes_Cuisine(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
+    cuisine_name = models.ForeignKey(Cuisine, on_delete=models.CASCADE, db_column='cuisine_name', to_field='cuisine_name')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user_id', 'cuisine_name'], name='unique_user_cuisine')
+        ]

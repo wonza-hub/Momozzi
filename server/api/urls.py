@@ -33,6 +33,9 @@ urlpatterns = [
     # Refrigerator Stores Ingredient endpoints
     path("refrigerator_stores_ingredient/", views.refrigerator_stores_ingredient, name="refrigerator_stores_ingredient"),
     
+    # User Likes Cuisine endpoints
+    path("user_likes_cuisine/", views.user_likes_cuisine, name="user_likes_cuisine"),
+    
     # Dummy data endpoint
     path("dummy/", views.dummy_add, name="dummy_add"),
     

@@ -64,6 +64,12 @@
 - **DELETE /api/refrigerator_stores_ingredient/**: Delete a refrigerator-ingredient relationship (send `refrigerator` and `ingredient_name` in request body).
 - **PUT /api/refrigerator_stores_ingredient/**: Update a refrigerator-ingredient relationship (send `refrigerator` and `ingredient_name` in request body).
 
+### User Likes Cuisine
+- **GET /api/user_likes_cuisine/**: Retrieve all user-cuisine relationships or a specific relationship by appending `?user_id={user_id}` to the URL.
+- **POST /api/user_likes_cuisine/**: Add a new user-cuisine relationship (send `user_id` and `cuisine_name` in request body).
+- **DELETE /api/user_likes_cuisine/**: Delete a user-cuisine relationship (send `user_id` and `cuisine_name` in request body).
+- **PUT /api/user_likes_cuisine/**: Update a user-cuisine relationship (send `user_id` and `cuisine_name` in request body).
+
 ### Dummy Data and Clear Data
 - **GET /api/dummy/**: Add dummy data to the database.
 - **GET /api/clear/**: Clear all data from the database.
