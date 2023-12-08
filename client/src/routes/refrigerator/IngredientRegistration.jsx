@@ -1,7 +1,8 @@
-import { useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { redirect, useParams } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import DropDown from "../../components/DropDown";
 
 /**
  * 재료 등록 컴포넌트
@@ -11,12 +12,7 @@ const IngredientRegistration = () => {
   const { fridgeId } = useParams();
   const [newIngredient, setNewIngredient] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const ingredientInputRef = useRef(null);
-
-  const handleIngredientInputChange = () => {
-    setNewIngredient(ingredientInputRef.current.value);
-  };
+  const [validIngredients, setValidIngredients] = useState([]);
 
   const addIngredient = (event) => {
     event.preventDefault();
@@ -27,20 +23,30 @@ const IngredientRegistration = () => {
     }
 
     let requestBody = {
-      refrigerator_id: fridgeId,
+      refrigerator: fridgeId,
       ingredient_name: newIngredient,
     };
-    // 미완성
+    console.log(requestBody);
     // POST: 냉장고 내 재료 추가
-    const ingredientPostURL = `${process.env.REACT_APP_SERVER}/api/refrigerator_stores_ingredient`;
-    axios
-      ?.post(ingredientPostURL, requestBody)
-      ?.then((res) => {
-        if (res.status === 200) {
-        }
-      })
-      ?.catch(() => console.log("post fail"));
+    const ingredientPostURL = `${process.env.REACT_APP_SERVER}/api/refrigerator_stores_ingredient/`;
+    axios?.post(ingredientPostURL, requestBody)?.then((res) => {
+      if (res.status === 200) {
+        redirect(`/refrigerator/${fridgeId}`);
+        window.location.reload();
+      }
+    });
   };
+
+  useEffect(() => {
+    // GET: 저장 가능 재료 목록 불러오기
+    const validIngredientsURL = `${process.env.REACT_APP_SERVER}/api/ingredient/`;
+    axios?.get(validIngredientsURL)?.then((res) => {
+      if (res.status === 200) {
+        const ingredientNames = res.data.map((item) => item.ingredient_name);
+        setValidIngredients(ingredientNames);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -53,17 +59,15 @@ const IngredientRegistration = () => {
             <CircularProgress color="success" className="text-xl" />
           </div>
         ) : (
-          <input
-            onChange={handleIngredientInputChange}
-            value={newIngredient}
-            className="w-44 h-12 mr-6 px-4 py-2 bg-[#efefef]/80 rounded-xl border-2 border-primary outline-2 outline-primary text-lg text-black/90 hover:bg-[#efefef] focus:bg-[#efefef] duration-200"
-            type="text"
-            placeholder="재료 추가"
-            ref={ingredientInputRef}
-          />
+          <div className="my-auto">
+            <DropDown
+              menuItems={validIngredients}
+              setArg={setNewIngredient}
+            ></DropDown>
+          </div>
         )}
         <button
-          className="w-32 h-12 px-4 bg-primary/90 text-xl text-white rounded-xl hover:bg-primary duration-300"
+          className="w-32 h-12 ml-4 my-auto mt-3 px-4 bg-primary/90 text-xl text-white rounded-xl hover:bg-primary duration-300"
           type={isLoading ? "button" : "submit"}
         >
           Add

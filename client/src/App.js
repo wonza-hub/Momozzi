@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loadUser } from "./reducer/userReducer";
 import NavBar from "./components/NavBar";
 import Refrigerator from "./routes/refrigerator/Refrigerator";
 import RecipeSearcher from "./routes/search/RecipeSearcher";
@@ -7,6 +10,11 @@ import Mypage from "./routes/mypage/Mypage";
 import MainPage from "./routes/main/MainPage";
 
 function App() {
+  const userDispatch = useDispatch();
+  useEffect(() => {
+    userDispatch(loadUser());
+  }, [userDispatch]);
+
   return (
     <BrowserRouter>
       <Routes>
