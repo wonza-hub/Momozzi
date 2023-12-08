@@ -306,7 +306,7 @@ def recipe_top(request):
                 LEFT JOIN api_review rvw ON rcp.recipe_id = rvw.recipe_id
                 GROUP BY rcp.recipe_id
                 ORDER BY review_count DESC
-                LIMIT 3
+                LIMIT 5
             """)
             recipes = dictfetchall(cursor)
             return JsonResponse(recipes, safe=False)
