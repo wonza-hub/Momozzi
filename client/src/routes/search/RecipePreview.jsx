@@ -12,7 +12,7 @@ const RecipePreview = ({ recipe }) => {
 
   return (
     <>
-      <div className="flex-1 w-[296px] h-[400px] px-4 pt-4">
+      <div className="w-[296px] h-[400px] px-4 pt-4">
         <Link to={`../recipe/${recipeId}`}>
           <div className="thumbnail h-[360px] rounded-2xl overflow-hidden bg-white/80 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] hover:-translate-y-1 duration-200 ease-in-out">
             <img
