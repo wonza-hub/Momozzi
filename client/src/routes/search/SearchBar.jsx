@@ -61,6 +61,9 @@ const SearchBar = ({ setRecipes }) => {
       ?.get(filterUrl, { params: queryParams })
       ?.then((res) => {
         setRecipes(res.data);
+        setMethod("");
+        setCategory("");
+        setIngredients("");
       })
       .catch((error) => {
         console.error("음식 정보 불러오기 실패", error);
