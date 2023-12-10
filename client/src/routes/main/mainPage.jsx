@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import RecipePreview from "../search/RecipePreview";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 const MainPage = () => {
   const [mostReviewedRecipes, setMostReviewedRecipes] = useState([]);
@@ -19,12 +20,26 @@ const MainPage = () => {
     });
   }, []);
 
-  useEffect(() => {}, []);
+  const scrollToBestRecipes = () => {
+    let bestRecipesPosition = 800;
+    window.scrollTo({
+      top: bestRecipesPosition,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <>
       <div className="flex flex-col overflow-x-hidden overflow-y-auto">
-        <div className="w-screen h-screen bg-[url('./img/main.png')] bg-repeat-x"></div>
+        <div className="w-screen h-screen bg-[url('./img/main.png')] bg-repeat-x">
+          <span className="absolute left-1/2 -translate-x-1/2 bottom-16 pl-10 text-xl font-semibold text-primary drop-shadow-md">
+            Best Recipes
+          </span>
+          <IoMdArrowDropdown
+            className="absolute left-1/2 -translate-x-1/2 bottom-4 text-4xl text-primary animate-bounce hover:cursor-pointer"
+            onClick={scrollToBestRecipes}
+          />
+        </div>
         <div className="w-screen min-h-full h-[1000px] bg-[#FAF1E4]">
           <div className="m-auto w-[1500px] h-4/5 translate-y-20">
             <div className="w-full h-[430px]">
