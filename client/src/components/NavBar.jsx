@@ -98,7 +98,7 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="fixed w-full h-[100px] px-8 bg-white/95 top-0 z-10 flex flex-row justify-between">
+      <div className="fixed w-full h-[100px] px-8 bg-white/95 top-0 z-10 flex flex-row justify-between border-b-2 border-b-stone">
         <h1 className="my-auto text-4xl font-semibold text-primary">
           <Link to={""}>Momozzi</Link>
         </h1>
