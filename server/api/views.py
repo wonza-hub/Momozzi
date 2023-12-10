@@ -729,6 +729,43 @@ def user_likes_cuisine(request):
         except Exception as e:
             return HttpResponse(e)
 
+@csrf_exempt
+def refrigerator_ingredient_details(request):
+    if request.method == "GET":
+        #check out view exists
+        with connection.cursor() as cursor:
+            cursor.execute("SHOW TABLES LIKE 'refrigerator_ingredient_details'")
+            result = cursor.fetchone()
+            if result:
+                pass
+            else:
+                cursor.execute("""
+                    CREATE VIEW refrigerator_ingredient_details AS
+                    SELECT r.refrigerator_id, i.ingredient_name, i.type, i.calories
+                    FROM api_refrigerator_stores_ingredient r
+                    JOIN api_ingredient i 
+                    ON r.ingredient_name = i.ingredient_name;
+                """)
+        
+        refrigerator_id = request.GET.get("refrigerator")
+        if refrigerator_id is not None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM refrigerator_ingredient_details WHERE refrigerator_id = %s", [refrigerator_id])
+                refrigerator_ingredient_details = dictfetchall(cursor)
+                return JsonResponse(refrigerator_ingredient_details, safe=False)
+        
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM refrigerator_ingredient_details")
+                refrigerator_ingredient_details = dictfetchall(cursor)
+                return JsonResponse(refrigerator_ingredient_details, safe=False)
+        
+        
+        
+
+
+
+
 
 ### Dummy ###
 def dummy_add(request):

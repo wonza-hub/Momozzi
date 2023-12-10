@@ -61,6 +61,7 @@
 
 ### Refrigerator Stores Ingredient
 - **GET /api/refrigerator_stores_ingredient/**: Retrieve all refrigerator-ingredient relationships or a specific relationship by appending `?refrigerator={refrigerator}&ingredient_name={ingredient_name}` to the URL.
+- **GET /api/refrigerator_ingredient_details/**: Retrieve all refrigerator-ingredient relationships with ingredient details by appending `?refrigerator={refrigerator}` to the URL.
 - **POST /api/refrigerator_stores_ingredient/**: Add a new refrigerator-ingredient relationship (send `refrigerator` and `ingredient_name` in request body).
 - **DELETE /api/refrigerator_stores_ingredient/**: Delete a refrigerator-ingredient relationship (send `refrigerator` and `ingredient_name` in request body).
 - **PUT /api/refrigerator_stores_ingredient/**: Update a refrigerator-ingredient relationship (send `refrigerator` and `ingredient_name` in request body).
