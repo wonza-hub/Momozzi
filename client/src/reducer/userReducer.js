@@ -14,7 +14,7 @@ export const userReducer = createSlice({
   name: "user",
   initialState: {
     name: "",
-    id: "",
+    id: 0,
     isLoading: false,
     isLogin: null,
   },

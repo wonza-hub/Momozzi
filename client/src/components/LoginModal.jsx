@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { loginUser } from "../reducer/userReducer";
 import { useNavigate } from "react-router-dom";
+import SignupModal from "./SignupModal";
 
 /**
  * 로그인 모달창 컴포넌트
@@ -13,6 +14,11 @@ const LoginModal = ({ handleLoginOpen }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const handleSignupOpen = () => {
+    setIsSignupOpen(!isSignupOpen);
+  };
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -107,12 +113,23 @@ const LoginModal = ({ handleLoginOpen }) => {
             <button className="w-full h-10 my-4 bg-kakao text-black rounded-xl">
               kakao login
             </button>
-            <button className=" w-full mt-24 h-14 tracking-wider border-2 border-black/80 rounded-3xl">
+            <button
+              className=" w-full mt-24 h-14 tracking-wider border-2 border-black/80 rounded-3xl"
+              onClick={handleSignupOpen}
+            >
               SIGN UP
             </button>
           </div>
         </div>
       </div>
+      {isSignupOpen ? (
+        <div
+          className="fixed t-0 l-0 w-full h-full bg-black/80 z-10"
+          onClick={handleSignupOpen}
+        >
+          <SignupModal handleSignupOpen={handleSignupOpen} />
+        </div>
+      ) : null}
     </>
   );
 };
