@@ -5,14 +5,19 @@ import RecipePreview from "./RecipePreview";
  * @param {recipes}
  * @returns
  */
-const RecipeList = ({ recipes }) => {
+const RecipeList = ({ recipes, isLoading }) => {
   return (
     <>
-      <div className="w-screen h-screen pt-[100px] flex flex-row flex-wrap bg-backgroundGray/20 overflow-y-scroll">
-        {recipes.map((recipe) => (
-          <RecipePreview key={recipe.recipe_id} recipe={recipe}></RecipePreview>
-        ))}
-      </div>
+      {isLoading ? null : (
+        <div className="w-screen h-screen pt-[100px] flex flex-row flex-wrap bg-backgroundGray/20 overflow-y-scroll">
+          {recipes.map((recipe) => (
+            <RecipePreview
+              key={recipe.recipe_id}
+              recipe={recipe}
+            ></RecipePreview>
+          ))}
+        </div>
+      )}
     </>
   );
 };
