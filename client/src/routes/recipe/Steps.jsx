@@ -3,14 +3,14 @@
  * @param {steps}
  * @returns
  */
-const Steps = ({ steps }) => {
+const Steps = ({ process }) => {
   return (
     <>
       <header className="mb-5 text-3xl font-bold text-primary drop-shadow-sm">
         Step
       </header>
       <div className="steps">
-        {steps.map((step, idx) => {
+        {process.split(".").map((step, idx) => {
           return (
             <div className="step mb-8 text-2xl flex flex-row" key={idx}>
               <div className="flex-none w-10 h-10 mr-4 pt-0.5 text-center bg-secondary text-white rounded-full">

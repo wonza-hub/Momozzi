@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Description from "./Description";
 import Ingredients from "./Ingredients";
@@ -8,6 +8,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlineTimer } from "react-icons/md";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 /**
  * 레시피 상세 페이지
@@ -15,32 +16,12 @@ import axios from "axios";
 const Recipe = () => {
   const { postId } = useParams();
 
-  const [cookTime, setCookTime] = useState("");
-  const [description, setDescription] = useState("");
-  const [steps, setSteps] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-
-  useEffect(() => {
-    // GET: 레시피 단건 조회
-    const dataUrl = `${process.env.REACT_APP_SERVER}/api/recipe/?recipe_id=${postId}`;
-    axios
-      ?.get(dataUrl, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      ?.then((res) => {
-        setCookTime(res.data[0].cook_time);
-        setDescription(res.data[0].description);
-        const processSteps = res.data[0].process.split(".");
-        setSteps(processSteps);
-      });
-    // GET: 레시피 재료 조회
-    const recipeURL = `${process.env.REACT_APP_SERVER}/api/recipe_needs_ingredient/?recipe_id=${postId}`;
-    axios?.get(recipeURL)?.then((res) => {
-      setIngredients(res.data);
-    });
-  }, [postId]);
+  const {
+    data: { description, cook_time: cookTime, process } = {},
+    isLoading: isReadingRecipe,
+  } = useGetRecipe();
+  const { data: ingredients, isLoading: isReadingIngredients } =
+    useGetIngredients();
 
   // 리뷰창 토글
   const [isReviewOpen, setIsReviewOpen] = useState(false);
@@ -53,7 +34,9 @@ const Recipe = () => {
     <>
       <div className="flex flex-row">
         <div className="relative w-1/2 pt-[100px] h-screen bg-primary/20 flex flex-col">
-          {isReviewOpen ? (
+          {isReadingRecipe || isReadingIngredients ? (
+            <p>Loading Recipe...</p>
+          ) : isReviewOpen ? (
             <>
               <ReviewPage></ReviewPage>
               <button
@@ -83,16 +66,43 @@ const Recipe = () => {
             </>
           )}
         </div>
-        <div className="w-1/2 pt-[100px] h-screen bg-backgroundGray/20 overflow-y-scroll">
-          <div className="pt-[32px] px-[40px]">
-            <Description description={description}></Description>
-            <Ingredients ingredients={ingredients}></Ingredients>
-            <Steps steps={steps}></Steps>
+        {isReadingRecipe ? null : (
+          <div className="w-1/2 pt-[100px] h-screen bg-backgroundGray/20 overflow-y-scroll">
+            <div className="pt-[32px] px-[40px]">
+              <Description description={description} />
+              <Ingredients ingredients={ingredients} />
+              <Steps process={process} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );
+};
+
+// REST: 레시피 단건 조회
+const useGetRecipe = () => {
+  const { postId } = useParams();
+
+  return useQuery({
+    queryKey: ["recipes", postId],
+    queryFn: async () => {
+      const recipeURL = `${process.env.REACT_APP_SERVER}/api/recipe/?recipe_id=${postId}`;
+      return await axios.get(recipeURL).then((res) => res.data[0]);
+    },
+  });
+};
+// REST: 레시피 재료 조회
+const useGetIngredients = () => {
+  const { postId } = useParams();
+
+  return useQuery({
+    queryKey: ["recipes", postId, "ingredients"],
+    queryFn: async () => {
+      const ingredientURL = `${process.env.REACT_APP_SERVER}/api/recipe_needs_ingredient/?recipe_id=${postId}`;
+      return await axios.get(ingredientURL).then((res) => res.data);
+    },
+  });
 };
 
 export default Recipe;
