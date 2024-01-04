@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import Description from "./Description";
 import Ingredients from "./Ingredients";
 import Steps from "./Steps";
-import ReviewList from "./ReviewList";
-import ReviewRegistration from "./ReviewRegistration";
+import ReviewPage from "./ReviewPage";
 import { FaPencilAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlineTimer } from "react-icons/md";
@@ -20,7 +19,6 @@ const Recipe = () => {
   const [description, setDescription] = useState("");
   const [steps, setSteps] = useState([]);
   const [ingredients, setIngredients] = useState([]);
-  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     // GET: 레시피 단건 조회
@@ -57,15 +55,7 @@ const Recipe = () => {
         <div className="relative w-1/2 pt-[100px] h-screen bg-primary/20 flex flex-col">
           {isReviewOpen ? (
             <>
-              <ReviewList
-                reviews={reviews}
-                setReviews={setReviews}
-              ></ReviewList>
-              <ReviewRegistration
-                reviews={reviews}
-                setIsReviewOpen={setIsReviewOpen}
-                setReviews={setReviews}
-              ></ReviewRegistration>
+              <ReviewPage></ReviewPage>
               <button
                 className="absolute right-8 bottom-8 w-14 h-14 bg-primary/80 hover:bg-primary/90 rounded-full"
                 onClick={handleReviewClose}

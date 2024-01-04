@@ -2,13 +2,13 @@ import RecipePreview from "./RecipePreview";
 
 /**
  * 레시피 목록 컴포넌트
- * @param {recipes}
+ * @param {object[]}
  * @returns
  */
-const RecipeList = ({ recipes, isLoading }) => {
+const RecipeList = ({ recipes, isReadingRecipes }) => {
   return (
     <>
-      {isLoading ? null : (
+      {isReadingRecipes ? null : (
         <div className="w-screen h-screen pt-[100px] flex flex-row flex-wrap bg-backgroundGray/20 overflow-y-scroll">
           {recipes.map((recipe) => (
             <RecipePreview
