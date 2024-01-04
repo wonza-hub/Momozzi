@@ -1,19 +1,11 @@
 import ReviewList from "./ReviewList";
 import ReviewRegistration from "./ReviewRegistration";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const ReviewPage = () => {
   const { data: reviews, isLoading: isReadingReviews } = useGetReviews();
-
-  const handleDeleteReview = (reviewId) => {
-    const updatedReviews = reviews.filter(
-      (review) => review.review_id !== reviewId
-    );
-    // setReviews(updatedReviews);
-  };
 
   return (
     <>
