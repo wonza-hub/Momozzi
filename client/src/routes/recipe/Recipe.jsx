@@ -66,7 +66,7 @@ const Recipe = () => {
             </>
           )}
         </div>
-        {isReadingRecipe ? null : (
+        {isReadingRecipe || isReadingIngredients ? null : (
           <div className="w-1/2 pt-[100px] h-screen bg-backgroundGray/20 overflow-y-scroll">
             <div className="pt-[32px] px-[40px]">
               <Description description={description} />
