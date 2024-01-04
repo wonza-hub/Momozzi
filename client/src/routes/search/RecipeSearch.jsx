@@ -14,7 +14,7 @@ const RecipeSearcher = () => {
   return (
     <>
       <div className="flex flex-row">
-        {/* <SearchBar setRecipes={setRecipes}></SearchBar> */}
+        {/* <SearchBar /> */}
         <RecipeList
           recipes={recipes}
           isReadingRecipes={isReadingRecipes}
